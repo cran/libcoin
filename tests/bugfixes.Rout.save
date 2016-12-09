@@ -1,0 +1,600 @@
+
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library("libcoin")
+> 
+> ### by Henric Winell
+> X <- runif(10)
+> Y <- runif(10)
+> o <- LinStatExpCov(X, Y)
+> ov <- LinStatExpCov(X, Y, varonly = TRUE)
+> stopifnot(all.equal(doTest(o, teststat = "scalar"),
++                     doTest(ov, teststat = "scalar")))
+> 
+> ### all weights = 0 and no weights at all was treated the same
+> X <- as.double(1:10)
+> Y <- as.double(10:1)
+> sum(X*Y)
+[1] 220
+> cl <- gl(2, 5)
+> 
+> ### linstat = 220
+> w <- as.integer(rep(1, 10))
+> LinStatExpCov(X = X, Y = Y)
+$LinearStatistic
+[1] 220
+
+$Expectation
+[1] 302.5
+
+$Covariance
+[1] 756.25
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 55
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 5.5
+
+$CovarianceInfluence
+[1] 8.25
+
+$VarianceInfluence
+[1] 8.25
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1]   0  55 385   0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1]  0 -1
+
+$Sumweights
+[1] -1
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w)
+$LinearStatistic
+[1] 220
+
+$Expectation
+[1] 302.5
+
+$Covariance
+[1] 756.25
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 55
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 5.5
+
+$CovarianceInfluence
+[1] 8.25
+
+$VarianceInfluence
+[1] 8.25
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1]   0  55 385   0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1]  0 -1
+
+$Sumweights
+[1] 10
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
+$LinearStatistic
+[1] 220
+
+$Expectation
+[1] 240
+
+$Covariance
+[1] 50
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 55
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 8 3
+
+$CovarianceInfluence
+[1] 2 2
+
+$VarianceInfluence
+[1] 2 2
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1]   0  40 330   0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 5 5
+
+$Sumweights
+[1] 5 5
+
+$Table
+NULL
+
+> 
+> ### linstat = 0
+> w <- as.integer(rep(0, 10))
+> LinStatExpCov(X = X, Y = Y, weights = w)
+$LinearStatistic
+[1] 0
+
+$Expectation
+[1] 0
+
+$Covariance
+[1] 0
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 0
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 0
+
+$CovarianceInfluence
+[1] 0
+
+$VarianceInfluence
+[1] 0
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1] 0 0 0 0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1]  0 -1
+
+$Sumweights
+[1] 0
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
+$LinearStatistic
+[1] 0
+
+$Expectation
+[1] 0
+
+$Covariance
+[1] 0
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 0
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 0 0
+
+$CovarianceInfluence
+[1] 0 0
+
+$VarianceInfluence
+[1] 0 0
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1] 0 0 0 0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 5 5
+
+$Sumweights
+[1] 0 0
+
+$Table
+NULL
+
+> 
+> ### linstat = 110
+> w <- as.integer(rep(0, 10))
+> w[1:5] <- 1L
+> LinStatExpCov(X = X, Y = Y, subset = 1:5)
+$LinearStatistic
+[1] 110
+
+$Expectation
+[1] 120
+
+$Covariance
+[1] 25
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 15
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 8
+
+$CovarianceInfluence
+[1] 2
+
+$VarianceInfluence
+[1] 2
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1]  0 15 55  0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 5
+
+$Sumweights
+[1] -1
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w)
+$LinearStatistic
+[1] 110
+
+$Expectation
+[1] 120
+
+$Covariance
+[1] 25
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 15
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 8
+
+$CovarianceInfluence
+[1] 2
+
+$VarianceInfluence
+[1] 2
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1]  0 15 55  0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1]  0 -1
+
+$Sumweights
+[1] 5
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
+$LinearStatistic
+[1] 110
+
+$Expectation
+[1] 120
+
+$Covariance
+[1] 25
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 15
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 8 0
+
+$CovarianceInfluence
+[1] 2 0
+
+$VarianceInfluence
+[1] 2 0
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1] 0 0 0 0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 5 5
+
+$Sumweights
+[1] 5 0
+
+$Table
+NULL
+
+> 
+> ### linstat = 0
+> LinStatExpCov(X = X, Y = Y, weights = w, subset = 6:10)
+$LinearStatistic
+[1] 0
+
+$Expectation
+[1] 0
+
+$Covariance
+[1] 0
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 0
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 0
+
+$CovarianceInfluence
+[1] 0
+
+$VarianceInfluence
+[1] 0
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1] 0 0 0 0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 5
+
+$Sumweights
+[1] 0
+
+$Table
+NULL
+
+> LinStatExpCov(X = X, Y = Y, weights = w, block = cl, subset = 6:10)
+$LinearStatistic
+[1] 0
+
+$Expectation
+[1] 0
+
+$Covariance
+[1] 0
+
+$Variance
+NULL
+
+$MPinv
+NULL
+
+$ExpectationX
+[1] 0
+
+$varonly
+[1] FALSE
+
+$dimension
+[1] 1 1
+
+$ExpectationInfluence
+[1] 0 0
+
+$CovarianceInfluence
+[1] 0 0
+
+$VarianceInfluence
+[1] 0 0
+
+$Xfactor
+[1] FALSE
+
+$Work
+[1] 0 0 0 0
+
+$tol
+[1] 1.490116e-08
+
+$PermutedLinearStatistic
+<0 x 0 matrix>
+
+$TableBlock
+[1] 0 0 5
+
+$Sumweights
+[1] 0 0
+
+$Table
+NULL
+
+> 
+> proc.time()
+   user  system elapsed 
+  0.100   0.020   0.116 

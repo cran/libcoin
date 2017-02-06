@@ -3,6 +3,7 @@
                              varonly = FALSE, B = 0L, standardise = FALSE,
                              tol = sqrt(.Machine$double.eps))
 {
+
     if (NROW(X) != NROW(Y))
         stop("dimensions of X and Y don't match")
 
@@ -35,8 +36,12 @@
     }
 
     ms <- !(complete.cases(X) & complete.cases(Y))
+    if (all(ms))
+        stop("all observations are missing")
     if (any(ms)) {
         if (length(subset) > 0) {
+            if (all(subset %in% (which(ms) - 1L)))
+                stop("all observations are missing")
             subset <- subset[!(subset %in% (which(ms) - 1L))]
         } else {
             subset <- (0:(NROW(X) - 1))[-which(ms)]

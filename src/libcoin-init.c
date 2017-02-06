@@ -26,6 +26,7 @@ void attribute_visible R_init_libcoin
 
     R_registerRoutines(dll, NULL, callMethods, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
+    R_forceSymbols(dll, TRUE);
     REGCALL(R_ExpectationCovarianceStatistic);
     REGCALL(R_PermutedLinearStatistic);
     REGCALL(R_ExpectationCovarianceStatistic_2d);

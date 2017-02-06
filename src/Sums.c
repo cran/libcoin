@@ -117,7 +117,8 @@ void C_colSums_i
     for (int p = 0; p < P; p++) {
         P_ans[p] = 0.;
         pN = p * N;
-        for (int i = 0; i < N; i++)
+        /* ATTENTION: first row corresponds to NAs and is IGNORED */
+        for (int i = 1; i < N; i++)
             P_ans[p] += x[pN + i];
     }
 }
@@ -133,7 +134,8 @@ void C_rowSums_i
 
     for (int i = 0; i < N; i++) {
         N_ans[i] = 0;
-        for (int p = 0; p < P; p++)
+        /* ATTENTION: first column corresponds to NAs and is IGNORED */
+        for (int p = 1; p < P; p++)
             N_ans[i] += x[p * N + i];
     }
 }

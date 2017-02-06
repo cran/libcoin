@@ -1,6 +1,6 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2017-02-05 r72121) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -595,6 +595,33 @@ $Table
 NULL
 
 > 
+> ### missing values in 1d and 2d case
+> x <- gl(6, 20)
+> y <- gl(3, 40)
+> x[sample(1:length(x), 10)] <- NA
+> y[sample(1:length(y), 10)] <- NA
+> 
+> X <- matrix(NA, nrow = length(x), ncol = nlevels(x))
+> X[!is.na(x),] <- model.matrix(~ x - 1)
+> Y <- matrix(NA, nrow = length(y), ncol = nlevels(y))
+> Y[!is.na(y),] <- model.matrix(~ y - 1)
+> 
+> lev1 <- LinStatExpCov(X = X, Y = Y)
+> t1 <- doTest(lev1, teststat = "quadratic")
+> 
+> X <- rbind(0, diag(nlevels(x)))
+> Y <- rbind(0, diag(nlevels(y)))
+> ix <- unclass(x)
+> ix[is.na(ix)] <- 0L
+> iy <- unclass(y)
+> iy[is.na(iy)] <- 0L
+> levels(ix) <- levels(x)
+> levels(iy) <- levels(y)
+> 
+> lev2 <- LinStatExpCov(X = X, Y = Y, ix = ix, iy = iy)
+> t2 <- doTest(lev2, teststat = "quadratic")
+> stopifnot(all.equal(t1, t2))
+> 
 > proc.time()
    user  system elapsed 
-  0.100   0.020   0.116 
+  0.416   0.048   0.454 

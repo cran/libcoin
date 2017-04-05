@@ -118,7 +118,7 @@ SEXP R_MaximumTest
     if (C_get_B(LEV) == 0) {
         if (C_get_varonly(LEV) && PQ > 1) {
             REAL(pval)[0] = NA_REAL;
-            UNPROTECT(1);
+            UNPROTECT(2);
             return(ans);
         }
         REAL(pval)[0] = C_maxtype_pvalue(REAL(stat)[0], cv, /*C_get_Covariance(LEV), */

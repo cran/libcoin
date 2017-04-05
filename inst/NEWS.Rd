@@ -2,6 +2,12 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 0.9-2 (2017-04-04)}{
+  \itemize{
+    \item Fix protect problem in \code{R_MaximumTest} reported by Tomas Kalibera.
+  }
+}
+
 \section{Changes in Version 0.9-1 (2017-02-06)}{
   \itemize{
     \item Calling \pkg{libcoin}'s C routines (using \code{.Call()}) now requires

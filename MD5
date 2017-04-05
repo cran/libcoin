@@ -1,10 +1,10 @@
-f4595f49a4b719bfa8630f2debd9bd3d *DESCRIPTION
+dd53301d67cfac883cd8e25230f37a90 *DESCRIPTION
 bf372f5e054dc5d65dc61478448dd7be *NAMESPACE
 849e8c0b342ec4ecfb4584f2419dda84 *R/AAA.R
 bc6d9629b20436638a4c98458b7dbeae *R/ctabs.R
 1cc03cb94a3b9fe3b60508985d769c7c *R/libcoin.R
 339c2c619522533780dc2ab641fef27d *cleanup
-5ba8c84534b25773a4aca3b105cc6647 *inst/NEWS.Rd
+15e6885a544e9aa8cb1d3da7fe2f099f *inst/NEWS.Rd
 8c1c57def0dfd2fc6e2432b783d377e6 *inst/include/libcoin.h
 13fc827e360a3d2c07dd5307867eba84 *inst/include/libcoinAPI.h
 8e54f30cd80df8be09ceeb783c42546a *inst/include/libcoin_internal.h
@@ -22,7 +22,7 @@ e17256df3c9e356fd69b9774187344ea *src/MaxSelect.c
 d8b344ee9a1eee27cd5b0db8d1d7fc3a *src/MemoryAccess.h
 2dbcf348af1be950b4109397de39182c *src/R_LinearStatistic.c
 a74266e5ade51702329a0705a3ca8a07 *src/R_Tables.c
-f37b4b70ef14cfaaca580ca3d851a4c1 *src/R_Tests.c
+3e7524825ee5842f9d1b219bf3d1aca9 *src/R_Tests.c
 7bb5727f4324e3f030b47d0cb0f0c3f5 *src/R_Utils.c
 df1d0bedc99e46a67945e0fba031358e *src/Sums.c
 bd8a4d3e14926d1a12d85571b542d520 *src/Sums.h

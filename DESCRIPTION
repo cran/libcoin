@@ -1,7 +1,7 @@
 Package: libcoin
 Title: Linear Test Statistics for Permutation Inference
-Date: 2017-02-06
-Version: 0.9-1
+Date: 2017-04-04
+Version: 0.9-2
 Authors@R: person("Torsten", "Hothorn", role = c("aut", "cre"),
                   email = "Torsten.Hothorn@R-project.org")
 Description: Basic infrastructure for linear test statistics and permutation
@@ -13,8 +13,8 @@ Imports: stats, mvtnorm
 LinkingTo: mvtnorm
 NeedsCompilation: yes
 License: GPL-2
-Packaged: 2017-02-06 13:14:46 UTC; hothorn
+Packaged: 2017-04-05 18:34:16 UTC; hothorn
 Author: Torsten Hothorn [aut, cre]
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Repository: CRAN
-Date/Publication: 2017-02-06 21:27:19
+Date/Publication: 2017-04-05 21:58:44 UTC

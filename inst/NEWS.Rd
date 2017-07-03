@@ -2,11 +2,18 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 0.9-3 (2017-07-02)}{
+  \itemize{
+    \item Remove copy of \code{rcont2} from the \code{stats} package as it is exported now.
+  }
+}
+
 \section{Changes in Version 0.9-2 (2017-04-04)}{
   \itemize{
     \item Fix protect problem in \code{R_MaximumTest} reported by Tomas Kalibera.
   }
 }
+
 
 \section{Changes in Version 0.9-1 (2017-02-06)}{
   \itemize{

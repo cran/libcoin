@@ -45,6 +45,7 @@ extern void C_MPinv_sym
     int *rank
 );
 
+/*
 extern void rcont2
 (
     int *nrow,
@@ -56,3 +57,4 @@ extern void rcont2
     int *jwork,
     int *matrix
 );
+*/

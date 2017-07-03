@@ -7,7 +7,7 @@
 #include "Tables.h"
 #include "Distributions.h"
 #include "MemoryAccess.h"
-#include "rcont2.h"
+#include <R_ext/stats_stubs.h> /* for S_rcont2 */
 
 void RC_ExpectationCovarianceStatistic
 (

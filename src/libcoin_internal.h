@@ -5,6 +5,7 @@
 #include <Rdefines.h>
 #include <R_ext/Applic.h> /* for dgemm */
 #include <R_ext/Lapack.h> /* for dgesdd */
+#include <R_ext/stats_package.h> /* for S_rcont2 */
 
 #define ALTERNATIVE_twosided            1
 #define ALTERNATIVE_less                2
@@ -36,6 +37,3 @@
 #define TableBlock_SLOT                 15
 #define Sumweights_SLOT                 16
 #define Table_SLOT                      17
-
-/* uncomment once base R was updated */
-/* #define USE_RCONT2_FROM_R		1 */

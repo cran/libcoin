@@ -2,6 +2,14 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-0 (2017-12-12)}{
+  \itemize{
+    \item Make the package truly literate; there is one single NUWEB file
+          called \code{libcoin.w} which generates the complete package.
+    \item The package can now deal with long vectors.
+  }
+}
+
 \section{Changes in Version 0.9-3 (2017-07-02)}{
   \itemize{
     \item Remove copy of \code{rcont2} from the \code{stats} package as it is exported now.

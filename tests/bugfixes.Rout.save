@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2017-02-05 r72121) -- "Unsuffered Consequences"
+R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
 Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -19,6 +19,7 @@ Type 'q()' to quit R.
 > library("libcoin")
 > 
 > ### by Henric Winell
+> set.seed(29)
 > X <- runif(10)
 > Y <- runif(10)
 > o <- LinStatExpCov(X, Y)
@@ -46,10 +47,7 @@ $Covariance
 [1] 756.25
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 756.25
 
 $ExpectationX
 [1] 55
@@ -72,24 +70,26 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1]   0  55 385   0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
 <0 x 0 matrix>
 
+$StandardisedPermutedLinearStatistic
+<0 x 0 matrix>
+
 $TableBlock
-[1]  0 -1
+[1]  0 10
 
 $Sumweights
-[1] -1
+[1] 10
 
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w)
 $LinearStatistic
 [1] 220
@@ -101,10 +101,7 @@ $Covariance
 [1] 756.25
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 756.25
 
 $ExpectationX
 [1] 55
@@ -127,17 +124,17 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1]   0  55 385   0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
 <0 x 0 matrix>
 
+$StandardisedPermutedLinearStatistic
+<0 x 0 matrix>
+
 $TableBlock
-[1]  0 -1
+[1]  0 10
 
 $Sumweights
 [1] 10
@@ -145,6 +142,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
 $LinearStatistic
 [1] 220
@@ -156,10 +155,7 @@ $Covariance
 [1] 50
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 50
 
 $ExpectationX
 [1] 55
@@ -182,13 +178,13 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1]   0  40 330   0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
+<0 x 0 matrix>
+
+$StandardisedPermutedLinearStatistic
 <0 x 0 matrix>
 
 $TableBlock
@@ -200,6 +196,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > 
 > ### linstat = 0
 > w <- as.integer(rep(0, 10))
@@ -214,10 +212,7 @@ $Covariance
 [1] 0
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 0
 
 $ExpectationX
 [1] 0
@@ -240,17 +235,17 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1] 0 0 0 0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
 <0 x 0 matrix>
 
+$StandardisedPermutedLinearStatistic
+<0 x 0 matrix>
+
 $TableBlock
-[1]  0 -1
+[1]  0 10
 
 $Sumweights
 [1] 0
@@ -258,6 +253,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
 $LinearStatistic
 [1] 0
@@ -269,10 +266,7 @@ $Covariance
 [1] 0
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 0
 
 $ExpectationX
 [1] 0
@@ -295,13 +289,13 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1] 0 0 0 0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
+<0 x 0 matrix>
+
+$StandardisedPermutedLinearStatistic
 <0 x 0 matrix>
 
 $TableBlock
@@ -313,6 +307,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > 
 > ### linstat = 110
 > w <- as.integer(rep(0, 10))
@@ -328,10 +324,7 @@ $Covariance
 [1] 25
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 25
 
 $ExpectationX
 [1] 15
@@ -354,24 +347,26 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1]  0 15 55  0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
 <0 x 0 matrix>
 
+$StandardisedPermutedLinearStatistic
+<0 x 0 matrix>
+
 $TableBlock
 [1] 0 5
 
 $Sumweights
-[1] -1
+[1] 5
 
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w)
 $LinearStatistic
 [1] 110
@@ -383,10 +378,7 @@ $Covariance
 [1] 25
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 25
 
 $ExpectationX
 [1] 15
@@ -409,17 +401,17 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1]  0 15 55  0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
 <0 x 0 matrix>
 
+$StandardisedPermutedLinearStatistic
+<0 x 0 matrix>
+
 $TableBlock
-[1]  0 -1
+[1]  0 10
 
 $Sumweights
 [1] 5
@@ -427,6 +419,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w, block = cl)
 $LinearStatistic
 [1] 110
@@ -438,10 +432,7 @@ $Covariance
 [1] 25
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 25
 
 $ExpectationX
 [1] 15
@@ -464,13 +455,13 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1] 0 0 0 0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
+<0 x 0 matrix>
+
+$StandardisedPermutedLinearStatistic
 <0 x 0 matrix>
 
 $TableBlock
@@ -482,6 +473,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > 
 > ### linstat = 0
 > LinStatExpCov(X = X, Y = Y, weights = w, subset = 6:10)
@@ -495,10 +488,7 @@ $Covariance
 [1] 0
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 0
 
 $ExpectationX
 [1] 0
@@ -521,13 +511,13 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1] 0 0 0 0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
+<0 x 0 matrix>
+
+$StandardisedPermutedLinearStatistic
 <0 x 0 matrix>
 
 $TableBlock
@@ -539,6 +529,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > LinStatExpCov(X = X, Y = Y, weights = w, block = cl, subset = 6:10)
 $LinearStatistic
 [1] 0
@@ -550,10 +542,7 @@ $Covariance
 [1] 0
 
 $Variance
-NULL
-
-$MPinv
-NULL
+[1] 0
 
 $ExpectationX
 [1] 0
@@ -576,13 +565,13 @@ $VarianceInfluence
 $Xfactor
 [1] FALSE
 
-$Work
-[1] 0 0 0 0
-
 $tol
 [1] 1.490116e-08
 
 $PermutedLinearStatistic
+<0 x 0 matrix>
+
+$StandardisedPermutedLinearStatistic
 <0 x 0 matrix>
 
 $TableBlock
@@ -594,6 +583,8 @@ $Sumweights
 $Table
 NULL
 
+attr(,"class")
+[1] "LinStatExpCov1d" "LinStatExpCov"  
 > 
 > ### missing values in 1d and 2d case
 > x <- gl(6, 20)
@@ -607,6 +598,8 @@ NULL
 > Y[!is.na(y),] <- model.matrix(~ y - 1)
 > 
 > lev1 <- LinStatExpCov(X = X, Y = Y)
+> lev1$Sumweights
+[1] 100
 > t1 <- doTest(lev1, teststat = "quadratic")
 > 
 > X <- rbind(0, diag(nlevels(x)))
@@ -619,9 +612,11 @@ NULL
 > levels(iy) <- levels(y)
 > 
 > lev2 <- LinStatExpCov(X = X, Y = Y, ix = ix, iy = iy)
+> lev2$Sumweights
+[1] 100
 > t2 <- doTest(lev2, teststat = "quadratic")
 > stopifnot(all.equal(t1, t2))
 > 
 > proc.time()
    user  system elapsed 
-  0.416   0.048   0.454 
+  0.204   0.028   0.229 

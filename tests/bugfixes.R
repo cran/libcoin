@@ -2,6 +2,7 @@
 library("libcoin")
 
 ### by Henric Winell
+set.seed(29)
 X <- runif(10)
 Y <- runif(10)
 o <- LinStatExpCov(X, Y)
@@ -49,6 +50,7 @@ Y <- matrix(NA, nrow = length(y), ncol = nlevels(y))
 Y[!is.na(y),] <- model.matrix(~ y - 1)
 
 lev1 <- LinStatExpCov(X = X, Y = Y)
+lev1$Sumweights
 t1 <- doTest(lev1, teststat = "quadratic")
 
 X <- rbind(0, diag(nlevels(x)))
@@ -61,5 +63,6 @@ levels(ix) <- levels(x)
 levels(iy) <- levels(y)
 
 lev2 <- LinStatExpCov(X = X, Y = Y, ix = ix, iy = iy)
+lev2$Sumweights
 t2 <- doTest(lev2, teststat = "quadratic")
 stopifnot(all.equal(t1, t2))

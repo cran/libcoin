@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rm -rf libcoin.Rnw
+
 for f in ./src/*.*o; do
     rm -f $f
 done

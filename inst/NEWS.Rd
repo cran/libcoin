@@ -2,6 +2,12 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-1 (2017-12-13)}{
+  \itemize{
+    \item Make valgrind happy.
+  }
+}
+
 \section{Changes in Version 1.0-0 (2017-12-12)}{
   \itemize{
     \item Make the package truly literate; there is one single NUWEB file

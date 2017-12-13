@@ -670,7 +670,8 @@ SEXP RC_init_LECV_1d
 
         SET_VECTOR_ELT(ans, Xfactor_SLOT, allocVector(INTSXP, 1));
         INTEGER(VECTOR_ELT(ans, Xfactor_SLOT))[0] = Xfactor;
-        SET_VECTOR_ELT(ans, TableBlock_SLOT, allocVector(REALSXP, B + 1));
+        SET_VECTOR_ELT(ans, TableBlock_SLOT, tmp = allocVector(REALSXP, B + 1));
+        for (int q = 0; q < B + 1; q++) REAL(tmp)[q] = 0.0;
         SET_VECTOR_ELT(ans, Sumweights_SLOT, allocVector(REALSXP, B));
         SET_VECTOR_ELT(ans, PermutedLinearStatistic_SLOT,
                        allocMatrix(REALSXP, 0, 0));
@@ -829,7 +830,8 @@ SEXP RC_init_LECV_2d
 
         SET_VECTOR_ELT(ans, Xfactor_SLOT, allocVector(INTSXP, 1));
         INTEGER(VECTOR_ELT(ans, Xfactor_SLOT))[0] = Xfactor;
-        SET_VECTOR_ELT(ans, TableBlock_SLOT, allocVector(REALSXP, B + 1));
+        SET_VECTOR_ELT(ans, TableBlock_SLOT, tmp = allocVector(REALSXP, B + 1));
+        for (int q = 0; q < B + 1; q++) REAL(tmp)[q] = 0.0;
         SET_VECTOR_ELT(ans, Sumweights_SLOT, allocVector(REALSXP, B));
         SET_VECTOR_ELT(ans, PermutedLinearStatistic_SLOT,
                        allocMatrix(REALSXP, 0, 0));
@@ -1061,7 +1063,7 @@ double C_maxtype_pvalue
                 ans = 0.0;
     }
     Free(corr); Free(sd); Free(lowerbnd); Free(upperbnd);
-    Free(infin); Free(delta);
+    Free(infin); Free(delta); Free(index);
 
     /* ans = 1 - p-value */
     if (lower) {
@@ -7364,6 +7366,7 @@ SEXP ans
             C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, P * Q)];
     }
 
+    Free(CovX);
     Free(table2d); 
     UNPROTECT(2);
 }
@@ -7626,7 +7629,7 @@ SEXP R_PermutedLinearStatistic_2d
     PutRNGstate();
 
     Free(csum); Free(rsum); Free(sumweights); Free(rtable2);
-    Free(jwork); Free(fact);
+    Free(jwork); Free(fact); Free(table);
     UNPROTECT(2);
     return(ans);
 }

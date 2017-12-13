@@ -3227,6 +3227,7 @@ and returns the matrix of standardised linear statistics.
 \mbox{}\verb@            C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, P * Q)];@\\
 \mbox{}\verb@    }@\\
 \mbox{}\verb@@\\
+\mbox{}\verb@    Free(CovX);@\\
 \mbox{}\verb@    Free(table2d); @\\
 \mbox{}\verb@    UNPROTECT(2);@\\
 \mbox{}\verb@}@\\
@@ -3399,7 +3400,7 @@ LinStatExpCov(X = iX2d, ix = ix, Y = iY2d, iy = iy,
 \mbox{}\verb@    PutRNGstate();@\\
 \mbox{}\verb@@\\
 \mbox{}\verb@    Free(csum); Free(rsum); Free(sumweights); Free(rtable2);@\\
-\mbox{}\verb@    Free(jwork); Free(fact);@\\
+\mbox{}\verb@    Free(jwork); Free(fact); Free(table);@\\
 \mbox{}\verb@    UNPROTECT(2);@\\
 \mbox{}\verb@    return(ans);@\\
 \mbox{}\verb@}@\\
@@ -4456,7 +4457,7 @@ LinStatExpCov(X = iX2d, ix = ix, Y = iY2d, iy = iy,
 \mbox{}\verb@                ans = 0.0;@\\
 \mbox{}\verb@    }@\\
 \mbox{}\verb@    Free(corr); Free(sd); Free(lowerbnd); Free(upperbnd);@\\
-\mbox{}\verb@    Free(infin); Free(delta);@\\
+\mbox{}\verb@    Free(infin); Free(delta); Free(index);@\\
 \mbox{}\verb@@\\
 \mbox{}\verb@    /* ans = 1 - p-value */@\\
 \mbox{}\verb@    if (lower) {@\\
@@ -10379,7 +10380,8 @@ stopifnot(isequal(K1, K2))
 \mbox{}\verb@@\\
 \mbox{}\verb@    SET_VECTOR_ELT(ans, Xfactor_SLOT, allocVector(INTSXP, 1));@\\
 \mbox{}\verb@    INTEGER(VECTOR_ELT(ans, Xfactor_SLOT))[0] = Xfactor;@\\
-\mbox{}\verb@    SET_VECTOR_ELT(ans, TableBlock_SLOT, allocVector(REALSXP, B + 1));@\\
+\mbox{}\verb@    SET_VECTOR_ELT(ans, TableBlock_SLOT, tmp = allocVector(REALSXP, B + 1));@\\
+\mbox{}\verb@    for (int q = 0; q < B + 1; q++) REAL(tmp)[q] = 0.0;@\\
 \mbox{}\verb@    SET_VECTOR_ELT(ans, Sumweights_SLOT, allocVector(REALSXP, B));@\\
 \mbox{}\verb@    SET_VECTOR_ELT(ans, PermutedLinearStatistic_SLOT,@\\
 \mbox{}\verb@                   allocMatrix(REALSXP, 0, 0));@\\
@@ -10557,8 +10559,8 @@ stopifnot(isequal(K1, K2))
 \mbox{}\verb@@\\
 \mbox{}\verb@Package: libcoin@\\
 \mbox{}\verb@Title: Linear Test Statistics for Permutation Inference@\\
-\mbox{}\verb@Date: 2017-12-12@\\
-\mbox{}\verb@Version: 1.0-0@\\
+\mbox{}\verb@Date: 2017-12-13@\\
+\mbox{}\verb@Version: 1.0-1@\\
 \mbox{}\verb@Authors@{\tt @}\verb@R: person("Torsten", "Hothorn", role = c("aut", "cre"),@\\
 \mbox{}\verb@                  email = "Torsten.Hothorn@{\tt @}\verb@R-project.org")@\\
 \mbox{}\verb@Description: Basic infrastructure for linear test statistics and permutation@\\

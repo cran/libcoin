@@ -2,6 +2,15 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-2 (2018-12-13)}{
+  \itemize{
+    \item Maximally selected statistics failed for large sample
+           sizes because of unnecessary memory allocation. Report and fix by
+           Joanidis Kristoforos.
+    \item Some additional checks for integer overflow.
+    }
+}
+
 \section{Changes in Version 1.0-1 (2017-12-13)}{
   \itemize{
     \item Make valgrind happy.

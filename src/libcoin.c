@@ -301,6 +301,41 @@ SEXP LECV
     return(INTEGER(VECTOR_ELT(LECV, dim_SLOT))[1]);
 }
 
+/* PP12 */
+
+int PP12
+(
+    int P
+) {
+
+    double dP = (double) P;
+    double ans;
+
+    ans = dP * (dP + 1) / 2;
+
+    if (ans > INT_MAX)
+        error("cannot allocate memory: number of levels too large");
+
+    return((int) ans);
+}
+
+/* mPQB */
+
+int mPQB
+(
+    int P,
+    int Q,
+    int B
+) {
+
+    double ans = P * Q * B;
+
+    if (ans > INT_MAX)
+        error("cannot allocate memory: number of levels too large");
+
+    return((int) ans);
+}
+
 /* C\_get\_varonly */
 
 int C_get_varonly
@@ -609,7 +644,7 @@ SEXP RC_init_LECV_1d
         if (tol <= DBL_MIN)
             error("tol is not positive");
         
-        PQ = P * Q;
+        PQ = mPQB(P, Q, 1);
         /* Memory Names */
         
         PROTECT(names = allocVector(STRSXP, Table_SLOT + 1));
@@ -649,7 +684,7 @@ SEXP RC_init_LECV_1d
             /* always return variance */
             SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
             SET_VECTOR_ELT(ans, Covariance_SLOT,
-                           allocVector(REALSXP, PQ * (PQ + 1) / 2));
+                           allocVector(REALSXP, PP12(PQ)));
         }
         SET_VECTOR_ELT(ans, ExpectationX_SLOT, allocVector(REALSXP, P));
         SET_VECTOR_ELT(ans, dim_SLOT, d = allocVector(INTSXP, 2));
@@ -691,7 +726,7 @@ SEXP RC_init_LECV_1d
                 C_get_Variance(ans)[p] = 0.0;
         }
         if (!varonly) {
-            for (int p = 0; p < PQ * (PQ + 1) / 2; p++)
+            for (int p = 0; p < PP12(PQ) / 2; p++)
                 C_get_Covariance(ans)[p] = 0.0;
         }
         for (int q = 0; q < Q; q++) {
@@ -769,7 +804,7 @@ SEXP RC_init_LECV_2d
         if (tol <= DBL_MIN)
             error("tol is not positive");
         
-        PQ = P * Q;
+        PQ = mPQB(P, Q, 1);
         /* Memory Names */
         
         PROTECT(names = allocVector(STRSXP, Table_SLOT + 1));
@@ -809,7 +844,7 @@ SEXP RC_init_LECV_2d
             /* always return variance */
             SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
             SET_VECTOR_ELT(ans, Covariance_SLOT,
-                           allocVector(REALSXP, PQ * (PQ + 1) / 2));
+                           allocVector(REALSXP, PP12(PQ)));
         }
         SET_VECTOR_ELT(ans, ExpectationX_SLOT, allocVector(REALSXP, P));
         SET_VECTOR_ELT(ans, dim_SLOT, d = allocVector(INTSXP, 2));
@@ -851,7 +886,7 @@ SEXP RC_init_LECV_2d
                 C_get_Variance(ans)[p] = 0.0;
         }
         if (!varonly) {
-            for (int p = 0; p < PQ * (PQ + 1) / 2; p++)
+            for (int p = 0; p < PP12(PQ) / 2; p++)
                 C_get_Covariance(ans)[p] = 0.0;
         }
         for (int q = 0; q < Q; q++) {
@@ -1673,7 +1708,7 @@ void C_XfactorKronSums_dweights_dsubset
         int *xx, ixi;
         double *yy;
      
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             yy = y + N * q;
@@ -1788,7 +1823,7 @@ void C_XfactorKronSums_iweights_dsubset
         int *xx, ixi;
         double *yy;
      
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             yy = y + N * q;
@@ -1902,7 +1937,7 @@ void C_XfactorKronSums_iweights_isubset
         int *xx, ixi;
         double *yy;
      
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             yy = y + N * q;
@@ -2016,7 +2051,7 @@ void C_XfactorKronSums_dweights_isubset
         int *xx, ixi;
         double *yy;
      
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             yy = y + N * q;
@@ -2414,7 +2449,7 @@ void C_XfactorKronSums_Permutation_isubset
     
         R_xlen_t qP, qN;
 
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             qP = q * P;
@@ -2472,7 +2507,7 @@ void C_XfactorKronSums_Permutation_dsubset
     
         R_xlen_t qP, qN;
 
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
         for (int q = 0; q < Q; q++) {
             qP = q * P;
@@ -4554,7 +4589,7 @@ SEXP R_TwoTableSums
     P = NLEVELS(x) + 1;
     Q = NLEVELS(y) + 1;
     
-    PROTECT(ans = allocVector(REALSXP, P * Q));
+    PROTECT(ans = allocVector(REALSXP, mPQB(P, Q, 1)));
     PROTECT(dim = allocVector(INTSXP, 2));
     INTEGER(dim)[0] = P;
     INTEGER(dim)[1] = Q;
@@ -4626,7 +4661,7 @@ void C_ThreeTableSums_dweights_dsubset
     double *s, *w; 
     /* ThreeTableSums Body */
     
-        int *xx, *yy, *bb, PQ = P * Q;
+        int *xx, *yy, *bb, PQ = mPQB(P, Q, 1);
 
         for (int p = 0; p < PQ * B; p++) PQL_ans[p] = 0.0;
 
@@ -4743,7 +4778,7 @@ void C_ThreeTableSums_iweights_dsubset
     int *w; 
     /* ThreeTableSums Body */
     
-        int *xx, *yy, *bb, PQ = P * Q;
+        int *xx, *yy, *bb, PQ = mPQB(P, Q, 1);
 
         for (int p = 0; p < PQ * B; p++) PQL_ans[p] = 0.0;
 
@@ -4859,7 +4894,7 @@ void C_ThreeTableSums_iweights_isubset
     int *s, *w;
     /* ThreeTableSums Body */
     
-        int *xx, *yy, *bb, PQ = P * Q;
+        int *xx, *yy, *bb, PQ = mPQB(P, Q, 1);
 
         for (int p = 0; p < PQ * B; p++) PQL_ans[p] = 0.0;
 
@@ -4976,7 +5011,7 @@ void C_ThreeTableSums_dweights_isubset
     double *w;
     /* ThreeTableSums Body */
     
-        int *xx, *yy, *bb, PQ = P * Q;
+        int *xx, *yy, *bb, PQ = mPQB(P, Q, 1);
 
         for (int p = 0; p < PQ * B; p++) PQL_ans[p] = 0.0;
 
@@ -5160,7 +5195,7 @@ SEXP R_ThreeTableSums
     Q = NLEVELS(y) + 1;
     B = NLEVELS(block);
     
-    PROTECT(ans = allocVector(REALSXP, P * Q * B));
+    PROTECT(ans = allocVector(REALSXP, mPQB(P, Q, B)));
     PROTECT(dim = allocVector(INTSXP, 3));
     INTEGER(dim)[0] = P;
     INTEGER(dim)[1] = Q;
@@ -5937,7 +5972,7 @@ void RC_CovarianceX
         if (VARONLY) {
             for (int p = 0; p < P; p++) PQ_ans[p] = ExpX[p];
         } else {
-            for (int p = 0; p < P * (P + 1) / 2; p++) 
+            for (int p = 0; p < PP12(P); p++) 
                 PQ_ans[p] = 0.0;
             for (int p = 0; p < P; p++)
                 PQ_ans[S(p, p, P)] = ExpX[p];
@@ -6022,7 +6057,7 @@ void C_ExpectationLinearStatistic
 ) {
 
     if (!add)
-        for (int p = 0; p < P * Q; p++) PQ_ans[p] = 0.0;
+        for (int p = 0; p < mPQB(P, Q, 1); p++) PQ_ans[p] = 0.0;
 
     for (int p = 0; p < P; p++) {
         for (int q = 0; q < Q; q++)
@@ -6058,7 +6093,7 @@ void C_CovarianceLinearStatistic
     double tmp, *PP_sym_tmp;
 
 
-    if (P * Q == 1) {
+    if (mPQB(P, Q, 1) == 1) {
         tmp = f1 * CovInf[0] * CovX[0];
         tmp -= f2 * CovInf[0] * ExpX[0] * ExpX[0];
         if (add) {
@@ -6067,10 +6102,10 @@ void C_CovarianceLinearStatistic
             PQPQ_sym_ans[0] = tmp;
         }
     } else {
-        PP_sym_tmp = Calloc(P * (P + 1) / 2, double);
+        PP_sym_tmp = Calloc(PP12(P), double);
         C_KronSums_sym_(ExpX, 1, P,
                         PP_sym_tmp);
-        for (int p = 0; p < P * (P + 1) / 2; p++)
+        for (int p = 0; p < PP12(P); p++)
             PP_sym_tmp[p] = f1 * CovX[p] - f2 * PP_sym_tmp[p];
         C_kronecker_sym(CovInf, Q, PP_sym_tmp, P, 1 - (add >= 1),
                         PQPQ_sym_ans);
@@ -6102,7 +6137,7 @@ void C_VarianceLinearStatistic
 ) {
 
 
-    if (P * Q == 1) {
+    if (mPQB(P, Q, 1) == 1) {
         C_CovarianceLinearStatistic(P, Q, VarInf, ExpX, VarX,
                                     sumweights, (add >= 1),
                                     PQ_ans);
@@ -6370,7 +6405,7 @@ const int give_log
 
     Q = C_get_Q(LECV);
     P = C_get_P(LECV);
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
     B = C_get_B(LECV);
     if (B > 1) {
         if (C_get_varonly(LECV))
@@ -6465,13 +6500,13 @@ const int give_log
                 
                 if (teststat == TESTSTAT_maximum) {
                     for (int pp = 0; pp < p; pp++)
-                        mvar[q] += 2 * covar[S(pp + q * P, p + P * q, P * Q)];
-                     mvar[q] += covar[S(p + q * P, p + P * q, P * Q)];
+                        mvar[q] += 2 * covar[S(pp + q * P, p + P * q, mPQB(P, Q, 1))];
+                     mvar[q] += covar[S(p + q * P, p + P * q, mPQB(P, Q, 1))];
                 } else {
                      for (int qq = 0; qq <= q; qq++) {
                          for (int pp = 0; pp < p; pp++)
-                             mcovar[S(q, qq, Q)] += 2 * covar[S(pp + q * P, p + P * qq, P * Q)];
-                         mcovar[S(q, qq, Q)] += covar[S(p + q * P, p + P * qq, P * Q)];
+                             mcovar[S(q, qq, Q)] += 2 * covar[S(pp + q * P, p + P * qq, mPQB(P, Q, 1))];
+                         mcovar[S(q, qq, Q)] += covar[S(p + q * P, p + P * qq, mPQB(P, Q, 1))];
                      }
                 }
                 
@@ -6562,7 +6597,7 @@ const int give_log
 
     Q = C_get_Q(LECV);
     P = C_get_P(LECV);
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
     B = C_get_B(LECV);
     if (B > 1) {
         if (C_get_varonly(LECV))
@@ -6729,7 +6764,8 @@ const int give_log
                         for (int p = 0; p < P; p++) {
                             mtmp[p] = 0.0;
                             for (int pp = 0; pp < P; pp++)
-                                mtmp[p] += contrast[pp] * covar[S(pp + q * P, p + P * qq, P * Q)];
+                                mtmp[p] += contrast[pp] * covar[S(pp + q * P, p + P * qq,
+                                                                  mPQB(P, Q, 1))];
                         }
                         for (int p = 0; p < P; p++)
                             mcovar[S(q, qq, Q)] += contrast[p] * mtmp[p];
@@ -6870,8 +6906,17 @@ SEXP ans
     ExpXtotal = C_get_ExpectationX(ans);
     for (int p = 0; p < P; p++) ExpXtotal[p] = 0.0;
     ExpX = Calloc(P, double);
-    VarX = Calloc(P, double);
-    CovX = Calloc(P * (P + 1) / 2, double);
+    /* Fix by Joanidis Kristoforos: P > INT_MAX is possible
+       for maximally selected statistics (when X is an integer).
+       2018-12-13
+    */
+    if (C_get_varonly(ans)) {
+        VarX = Calloc(P, double);
+        CovX = Calloc(1, double);
+    } else {
+        VarX = Calloc(1, double);
+        CovX = Calloc(PP12(P), double);
+    }
     table = C_get_TableBlock(ans);
     sumweights = C_get_Sumweights(ans);
     PROTECT(nullvec = allocVector(INTSXP, 0));
@@ -6961,8 +7006,8 @@ SEXP ans
     
     /* always return variances */
     if (!C_get_varonly(ans)) {
-        for (int p = 0; p < P * Q; p++) 
-            C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, P * Q)];
+        for (int p = 0; p < mPQB(P, Q, 1); p++) 
+            C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, mPQB(P, Q, 1))];
     }
     
 
@@ -7091,7 +7136,7 @@ SEXP R_PermutedLinearStatistic
         if (LENGTH(block) > 0)
             B = NLEVELS(block);
     
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
     N = NROW(y);
     inresample = (R_xlen_t) REAL(nresample)[0];
 
@@ -7238,7 +7283,7 @@ SEXP ans
     if (C_get_varonly(ans)) {
         CovX = Calloc(P, double);
     } else {
-        CovX = Calloc(P * (P + 1) / 2, double);
+        CovX = Calloc(PP12(P), double);
     }
 
     table2d = Calloc(Lxp1 * Lyp1, double);
@@ -7261,7 +7306,7 @@ SEXP ans
     
 
     linstat = C_get_LinearStatistic(ans);
-    for (int p = 0; p < P * Q; p++)
+    for (int p = 0; p < mPQB(P, Q, 1); p++)
         linstat[p] = 0.0;
 
     for (int b = 0; b < B; b++) {
@@ -7347,7 +7392,7 @@ SEXP ans
                                       C_get_Variance(ans));
         } else {
             if (LENGTH(x) == 0) {
-                for (int p = 0; p < P * (P + 1) / 2; p++) CovX[p] = 0.0;
+                for (int p = 0; p < PP12(P); p++) CovX[p] = 0.0;
                 for (int p = 0; p < P; p++) CovX[S(p, p, P)] = ExpX[p];
             } else {
                 RC_CovarianceX(x, NROW(x), P, Rrsum, subset, Offset0, 0, ExpX, !DoVarOnly, CovX);
@@ -7362,8 +7407,8 @@ SEXP ans
 
     /* always return variances */
     if (!C_get_varonly(ans)) {
-        for (int p = 0; p < P * Q; p++) 
-            C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, P * Q)];
+        for (int p = 0; p < mPQB(P, Q, 1); p++) 
+            C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, mPQB(P, Q, 1))];
     }
 
     Free(CovX);
@@ -7509,7 +7554,7 @@ SEXP R_PermutedLinearStatistic_2d
     Ly = NLEVELS(iy);
     
 
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
     Xfactor = XLENGTH(x) == 0;
     Lxp1 = Lx + 1;
     Lyp1 = Ly + 1;
@@ -7664,7 +7709,7 @@ SEXP R_QuadraticTest
     
     P = C_get_P(LECV);
     Q = C_get_Q(LECV);
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
 
     if (C_get_varonly(LECV) && PQ > 1)
             error("cannot compute adjusted p-value based on variances only");
@@ -7690,7 +7735,7 @@ SEXP R_QuadraticTest
     int PSTAT = INTEGER(PermutedStatistics)[0];
     
 
-    MPinv = Calloc(PQ * (PQ + 1) / 2, double); /* was: C_get_MPinv(LECV); */
+    MPinv = Calloc(PP12(PQ), double); /* was: C_get_MPinv(LECV); */
     C_MPinv_sym(C_get_Covariance(LECV), PQ, C_get_tol(LECV), MPinv, &rank);
 
     REAL(stat)[0] = C_quadform(PQ, C_get_LinearStatistic(LECV),
@@ -7754,7 +7799,7 @@ SEXP R_MaximumTest
     
     P = C_get_P(LECV);
     Q = C_get_Q(LECV);
-    PQ = P * Q;
+    PQ = mPQB(P, Q, 1);
 
     if (C_get_varonly(LECV) && PQ > 1)
             error("cannot compute adjusted p-value based on variances only");

@@ -679,12 +679,12 @@ SEXP RC_init_LECV_1d
         SET_VECTOR_ELT(ans, varonly_SLOT, vo = allocVector(INTSXP, 1));
         INTEGER(vo)[0] = varonly;
         if (varonly) {
-            SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
+            SET_VECTOR_ELT(ans, Variance_SLOT, tmp = allocVector(REALSXP, PQ));
         } else  {
             /* always return variance */
-            SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
+            SET_VECTOR_ELT(ans, Variance_SLOT, tmp = allocVector(REALSXP, PQ));
             SET_VECTOR_ELT(ans, Covariance_SLOT,
-                           allocVector(REALSXP, PP12(PQ)));
+                           tmp = allocVector(REALSXP, PP12(PQ)));
         }
         SET_VECTOR_ELT(ans, ExpectationX_SLOT, allocVector(REALSXP, P));
         SET_VECTOR_ELT(ans, dim_SLOT, d = allocVector(INTSXP, 2));
@@ -726,7 +726,7 @@ SEXP RC_init_LECV_1d
                 C_get_Variance(ans)[p] = 0.0;
         }
         if (!varonly) {
-            for (int p = 0; p < PP12(PQ) / 2; p++)
+            for (int p = 0; p < PP12(PQ); p++)
                 C_get_Covariance(ans)[p] = 0.0;
         }
         for (int q = 0; q < Q; q++) {
@@ -839,12 +839,12 @@ SEXP RC_init_LECV_2d
         SET_VECTOR_ELT(ans, varonly_SLOT, vo = allocVector(INTSXP, 1));
         INTEGER(vo)[0] = varonly;
         if (varonly) {
-            SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
+            SET_VECTOR_ELT(ans, Variance_SLOT, tmp = allocVector(REALSXP, PQ));
         } else  {
             /* always return variance */
-            SET_VECTOR_ELT(ans, Variance_SLOT, allocVector(REALSXP, PQ));
+            SET_VECTOR_ELT(ans, Variance_SLOT, tmp = allocVector(REALSXP, PQ));
             SET_VECTOR_ELT(ans, Covariance_SLOT,
-                           allocVector(REALSXP, PP12(PQ)));
+                           tmp = allocVector(REALSXP, PP12(PQ)));
         }
         SET_VECTOR_ELT(ans, ExpectationX_SLOT, allocVector(REALSXP, P));
         SET_VECTOR_ELT(ans, dim_SLOT, d = allocVector(INTSXP, 2));
@@ -886,7 +886,7 @@ SEXP RC_init_LECV_2d
                 C_get_Variance(ans)[p] = 0.0;
         }
         if (!varonly) {
-            for (int p = 0; p < PP12(PQ) / 2; p++)
+            for (int p = 0; p < PP12(PQ); p++)
                 C_get_Covariance(ans)[p] = 0.0;
         }
         for (int q = 0; q < Q; q++) {

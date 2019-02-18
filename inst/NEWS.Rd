@@ -2,6 +2,12 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-3 (2019-02-18)}{
+  \itemize{
+    \item Parts of the covariance matrix were not set to zero initially.
+    }
+}
+
 \section{Changes in Version 1.0-2 (2018-12-13)}{
   \itemize{
     \item Maximally selected statistics failed for large sample

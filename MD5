@@ -1,14 +1,14 @@
-c9a0d7fb958ce7aef1e09a0ba00b87a5 *DESCRIPTION
+46c143a35e75578cce3895c99e8d3069 *DESCRIPTION
 1dd784123a2547aef99ab73c28933b66 *NAMESPACE
 124757f1f9c689639f94e839ab92749f *R/AAA.R
 e18b675c709c4b4d6415a7e99acdb953 *R/ctabs.R
 567bcd6a8507bbd69507545ae0ddaa66 *R/libcoin.R
-4df44ace9af45c5907d5d71e1bdf3f17 *build/vignette.rds
+c91f430a5f799e9eb1c8fa494e7dc3df *build/vignette.rds
 17eb0a6121b07a2812e6244905c0f09f *cleanup
-c7e34217b77adf8e31bcb8c154a63b50 *inst/NEWS.Rd
+f449fa3750eb8e9bcc224d290fbdfd87 *inst/NEWS.Rd
 aed1d416a36cf219396e380576896bcc *inst/doc/libcoin.R
-09018bb8447ae473d6f7eec737bf6249 *inst/doc/libcoin.Rnw
-8474030e69aa9784eac7eca3464426c4 *inst/doc/libcoin.pdf
+fbc97a9b7f88bfbc94a745fc770bb5df *inst/doc/libcoin.Rnw
+c27f4b2e45ce87498ab035dfca5f3452 *inst/doc/libcoin.pdf
 c247ee16e5c9ad0bbafaed40d55e075f *inst/include/libcoin.h
 0be51847b8b126004f3df7f16e7fbc7c *inst/include/libcoinAPI.h
 e7c55d6ecc65d86a43df1379738c726f *inst/include/libcoin_internal.h
@@ -18,7 +18,7 @@ aaa915dee62241c18bac94889583e8c5 *inst/libcoin.bib
 d5c61af0ffcef8de03918cab4f34d1a5 *man/doTest.Rd
 1a3e64eb2af2ed6d6fbb037da1bc216f *src/Makevars
 6f1d9bb78dc9e62c50501cc3d50cc43d *src/libcoin-init.c
-83c46e98169a0a33bdf3e6bbf953cc8b *src/libcoin.c
+000bba6dd385ed0152e030ca5a1013e7 *src/libcoin.c
 c247ee16e5c9ad0bbafaed40d55e075f *src/libcoin.h
 0be51847b8b126004f3df7f16e7fbc7c *src/libcoinAPI.h
 e7c55d6ecc65d86a43df1379738c726f *src/libcoin_internal.h
@@ -28,4 +28,4 @@ aed1d416a36cf219396e380576896bcc *tests/libcoin.R
 24b6cd98cac58f4593247b2d0d9a6128 *tests/regtest_ctabs.R
 d6d8e576496f3302efa8d9d2d540941d *tests/regtest_ctabs.Rout.save
 262aee1dd4d18a454e59f5a5be35e30b *tests/regtest_libcoin.R
-09018bb8447ae473d6f7eec737bf6249 *vignettes/libcoin.Rnw
+fbc97a9b7f88bfbc94a745fc770bb5df *vignettes/libcoin.Rnw

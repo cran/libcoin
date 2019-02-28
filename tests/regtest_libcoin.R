@@ -461,7 +461,7 @@ lev <- LinStatExpCov(ix, cbind(y, y2), block = blk, nresample = 50)
 cmp3(mt, tst)
 (tst2 <- doTest(lev, teststat = "quadratic", ordered = FALSE))
 
-xx <- factor(x == levels(x)[tst2$index == 1])
+xx <- factor(x %in% levels(x)[tst2$index == 1])
 (it <- independence_test(y + y2 ~ xx | blk, teststat = "quadratic"))
 cmp3(it, tst2)
 

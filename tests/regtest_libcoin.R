@@ -13,7 +13,7 @@ s <- sort(sample(1:n, floor(n/2), replace = TRUE))
 b <- sample(gl(2, 2, length = n))
 
 tol <- if (.Platform$OS.type == "unix") {
-    sqrt(.Machine$double.eps) 
+    sqrt(.Machine$double.eps)
 } else {
    .Machine$double.eps^(1/5)
 }
@@ -367,7 +367,7 @@ cmp3 <- function(t1, t2)
 cmp4 <- function(t1, t2)
     stopifnot(all.equal(t1$TestStatistic, sqrt(t2$TestStatistic), tolerance = tol))
 
-(mt <- maxstat_test(y ~ x , distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y ~ x , distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, y, nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum"))
 cmp3(mt, tst)
@@ -383,7 +383,7 @@ ux[tst$index]
 cmp4(tst, tst2)
 ux[tst2$index]
 
-(mt <- maxstat_test(y ~ x | blk, distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y ~ x | blk, distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, y, block = blk, nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum"))
 cmp3(mt, tst)
@@ -394,7 +394,7 @@ ux[tst$index]
 lev <- LinStatExpCov(ix, y, block = blk, nresample = 1000, varonly = TRUE)
 try(tst <- doTest(lev, teststat = "maximum"))
 
-(mt <- maxstat_test(y + y2 ~ x , distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y + y2 ~ x , distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, cbind(y, y2), nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum"))
 cmp3(mt, tst)
@@ -408,7 +408,7 @@ ux[tst$index]
 (tst <- doTest(lev, teststat = "quadratic"))
 ux[tst$index]
 
-(mt <- maxstat_test(y + y2 ~ x | blk, distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y + y2 ~ x | blk, distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, cbind(y, y2), block = blk, nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum"))
 cmp3(mt, tst)
@@ -424,7 +424,7 @@ y2 <- runif(length(x))
 ix <- unclass(x)
 blk <- gl(5, n)
 
-(mt <- maxstat_test(y ~ x , distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y ~ x , distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, y, nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum", ordered = FALSE))
 cmp3(mt, tst)
@@ -436,7 +436,7 @@ cmp3(mt, tst)
 (tst2 <- doTest(lev, teststat = "quadratic", ordered = FALSE))
 cmp4(tst, tst2)
 
-(mt <- maxstat_test(y ~ x | blk, distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y ~ x | blk, distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, y, block = blk, nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum", ordered = FALSE))
 cmp3(mt, tst)
@@ -445,7 +445,7 @@ cmp4(tst, tst2)
 lev <- LinStatExpCov(ix, y, block = blk, nresample = 1000, varonly = TRUE)
 try(tst <- doTest(lev, teststat = "maximum", ordered = FALSE))
 
-(mt <- maxstat_test(y + y2 ~ x , distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y + y2 ~ x , distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, cbind(y, y2), nresample = 1000)
 (tst <- doTest(lev, teststat = "maximum", ordered = FALSE))
 cmp3(mt, tst)
@@ -455,7 +455,7 @@ lev <- LinStatExpCov(ix, cbind(y, y2), nresample = 1000, varonly = TRUE)
 cmp3(mt, tst)
 (tst <- doTest(lev, teststat = "quadratic", ordered = FALSE))
 
-(mt <- maxstat_test(y + y2 ~ x | blk, distrib = approximate(B = 1000)))
+(mt <- maxstat_test(y + y2 ~ x | blk, distrib = approximate(nresample = 1000)))
 lev <- LinStatExpCov(ix, cbind(y, y2), block = blk, nresample = 50)
 (tst <- doTest(lev, teststat = "maximum", ordered = FALSE))
 cmp3(mt, tst)

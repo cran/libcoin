@@ -347,6 +347,36 @@ SEXP R_unpack_sym
     return ans;
 }
 
+/* R\_pack\_sym */
+
+/* R\_pack\_sym Prototype */
+
+SEXP R_pack_sym
+(
+    SEXP x
+)
+
+{
+    R_xlen_t n, k = 0;
+    SEXP ans;
+    double *dx, *dans;
+
+    n = NROW(x);
+    dx = REAL(x);
+    PROTECT(ans = allocVector(REALSXP, n * (n + 1) / 2));
+    dans = REAL(ans);
+
+    for (R_xlen_t i = 0; i < n; i++) {
+        for (R_xlen_t j = i; j < n; j++) {
+          dans[k] = dx[i * n + j];
+          k++;
+        }
+    }
+
+    UNPROTECT(1);
+    return ans;
+}
+
 
 /* Memory */
 
@@ -7652,8 +7682,15 @@ SEXP R_PermutedLinearStatistic_2d
         for (int b = 0; b < B; b++) {
             /* Compute Permuted Linear Statistic 2d */
             
-            S_rcont2(&Lx, &Ly, rsum + Lxp1 * b + 1,
-                     csum + Lyp1 *b + 1, sumweights + b, fact, jwork, rtable2);
+            #if defined(R_VERSION) && R_VERSION >= R_Version(4, 1, 0)
+                        S_rcont2(Lx, Ly,
+                                rsum + Lxp1 * b + 1,
+                                csum + Lyp1 * b + 1,
+                                sumweights[b], fact, jwork, rtable2);
+            #else      
+                        S_rcont2(&Lx, &Ly, rsum + Lxp1 * b + 1,
+                                 csum + Lyp1 *b + 1, sumweights + b, fact, jwork, rtable2);
+            #endif
 
             for (int j1 = 1; j1 <= Lx; j1++) {
                 for (int j2 = 1; j2 <= Ly; j2++)

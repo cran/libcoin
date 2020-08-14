@@ -56,6 +56,7 @@ static const R_CallMethodDef callMethods[] = {
     CALLDEF(R_kronecker, 2),
     CALLDEF(R_MPinv_sym, 3),
     CALLDEF(R_unpack_sym, 3),
+    CALLDEF(R_pack_sym, 1),
     {NULL, NULL, 0}
 };
 
@@ -90,4 +91,5 @@ void attribute_visible R_init_libcoin
     REGCALL(R_kronecker);
     REGCALL(R_MPinv_sym);
     REGCALL(R_unpack_sym);
+    REGCALL(R_pack_sym);
 }

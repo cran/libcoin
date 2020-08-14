@@ -449,4 +449,10 @@ extern
            SEXP diagonly
        )
        ;
+extern 
+       SEXP R_pack_sym
+       (
+           SEXP x
+       )
+       ;
 

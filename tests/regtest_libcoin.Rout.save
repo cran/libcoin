@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2019-07-09 r76810) -- "Unsuffered Consequences"
+R Under development (unstable) (2019-12-05 r77528) -- "Unsuffered Consequences"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -46,8 +46,12 @@ Loading required package: survival
 +         var2 <- var2[!upper.tri(var2)]
 +     }
 +     stopifnot(all.equal(
-+         list(t1$LinearStatistic, t1$Expectation, var1),
-+         list(t2@statistic@linearstatistic, t2@statistic@expectation, var2),
++         list(t1$LinearStatistic,
++              t1$Expectation,
++              var1),
++         list(as.vector(t2@statistic@linearstatistic),
++              as.vector(t2@statistic@expectation),
++              var2),
 +         check.attributes = FALSE, tolerance = tol
 +     ))
 + }
@@ -68,8 +72,8 @@ Loading required package: survival
 +     stopifnot(all.equal(t1$TestStatistic, sqrt(t2$TestStatistic), tolerance = tol))
 > 
 > 
-> t1 <-LinStatExpCov(X, Y)
-> t1v <-LinStatExpCov(X, Y, varonly = TRUE)
+> t1 <- LinStatExpCov(X, Y)
+> t1v <- LinStatExpCov(X, Y, varonly = TRUE)
 > t2 <- independence_test(Y ~ X)
 > cmp(t1, t2)
 > cmp(t1v, t2)
@@ -81,8 +85,8 @@ Loading required package: survival
 > t3 <- independence_test(Y ~ X, teststat = "quadratic")
 > cmp3(t3, doTest(t1, teststat = "quadratic"), pvalue = TRUE)
 > 
-> t1 <-LinStatExpCov(X, Y, weights = w)
-> t1v <-LinStatExpCov(X, Y, weights = w, varonly = TRUE)
+> t1 <- LinStatExpCov(X, Y, weights = w)
+> t1v <- LinStatExpCov(X, Y, weights = w, varonly = TRUE)
 > t2 <- independence_test(Y ~ X, weights = ~ w)
 > cmp(t1, t2)
 > cmp(t1v, t2)
@@ -194,23 +198,23 @@ Loading required package: survival
 > s <- sort(sample(1:n, floor(n/2), replace = TRUE))
 > b <- sample(gl(2, 2, length = n))
 > 
-> t1 <-LinStatExpCov(X, Y)
-> t1v <-LinStatExpCov(X, Y, varonly = TRUE)
+> t1 <- LinStatExpCov(X, Y)
+> t1v <- LinStatExpCov(X, Y, varonly = TRUE)
 > t2 <- independence_test(Y ~ X)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y)
-> t1vf <-LinStatExpCov(fx, Y, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y)
+> t1vf <- LinStatExpCov(fx, Y, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
-> t1 <-LinStatExpCov(X, Y, weights = w)
-> t1v <-LinStatExpCov(X, Y, weights = w, varonly = TRUE)
+> t1 <- LinStatExpCov(X, Y, weights = w)
+> t1v <- LinStatExpCov(X, Y, weights = w, varonly = TRUE)
 > t2 <- independence_test(Y ~ X, weights = ~ w)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, weights = w)
-> t1vf <-LinStatExpCov(fx, Y, weights = w, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, weights = w)
+> t1vf <- LinStatExpCov(fx, Y, weights = w, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -219,8 +223,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, subset = s)
-> t1vf <-LinStatExpCov(fx, Y, subset = s, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, subset = s)
+> t1vf <- LinStatExpCov(fx, Y, subset = s, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -229,8 +233,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X, weights = ~w, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, weights = w, subset = s)
-> t1vf <-LinStatExpCov(fx, Y, weights = w, subset = s, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, weights = w, subset = s)
+> t1vf <- LinStatExpCov(fx, Y, weights = w, subset = s, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -239,8 +243,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X  | b)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, block = b)
-> t1vf <-LinStatExpCov(fx, Y, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, block = b)
+> t1vf <- LinStatExpCov(fx, Y, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -250,8 +254,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X | b, weights = ~ w)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, weights = w, block = b)
-> t1vf <-LinStatExpCov(fx, Y, weights = w, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, weights = w, block = b)
+> t1vf <- LinStatExpCov(fx, Y, weights = w, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -260,8 +264,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X | b, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, subset = s, block = b)
-> t1vf <-LinStatExpCov(fx, Y, subset = s, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, subset = s, block = b)
+> t1vf <- LinStatExpCov(fx, Y, subset = s, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -270,8 +274,8 @@ Loading required package: survival
 > t2 <- independence_test(Y ~ X | b, weights = ~w, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(fx, Y, weights = w, subset = s, block = b)
-> t1vf <-LinStatExpCov(fx, Y, weights = w, subset = s, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(fx, Y, weights = w, subset = s, block = b)
+> t1vf <- LinStatExpCov(fx, Y, weights = w, subset = s, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -293,8 +297,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -303,8 +307,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX, weights = ~ w)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -313,8 +317,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, subset = s)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, subset = s, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, subset = s)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, subset = s, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -324,8 +328,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX, weights = ~w, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -334,8 +338,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX  | b)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, block = b)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, block = b)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -344,8 +348,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX | b, weights = ~ w)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, block = b)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, block = b)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -354,8 +358,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX | b, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, subset = s, block = b)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, subset = s, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, subset = s, block = b)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, subset = s, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -364,8 +368,8 @@ Loading required package: survival
 > t2 <- independence_test(YY ~ XX| b, weights = ~w, subset = s)
 > cmp(t1, t2)
 > cmp(t1v, t2)
-> t1f <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, block = b)
-> t1vf <-LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, block = b, varonly = TRUE)
+> t1f <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, block = b)
+> t1vf <- LinStatExpCov(numeric(0), Y, ix, iy, weights = w, subset = s, block = b, varonly = TRUE)
 > cmp2(t1, t1f)
 > cmp2(t1v, t1vf)
 > 
@@ -807,4 +811,4 @@ Error in doTest(lev, teststat = "maximum", ordered = FALSE) :
 > 
 > proc.time()
    user  system elapsed 
-   5.96    0.28    6.25 
+   3.89    0.31    4.21 

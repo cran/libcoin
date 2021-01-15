@@ -31,8 +31,8 @@ cmp <- function(t1, t2) {
         list(t1$LinearStatistic,
              t1$Expectation,
              var1),
-        list(as.vector(t2@statistic@linearstatistic),
-             as.vector(t2@statistic@expectation),
+        list(as.vector(statistic(t2, type = "linear")),
+             as.vector(expectation(t2)),
              var2),
         check.attributes = FALSE, tolerance = tol
     ))

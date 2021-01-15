@@ -2,6 +2,13 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-7 (2021-01-15)}{
+  \itemize{
+    \item Correct spelling in error message.
+    \item Regression tests updated for \pkg{coin} 1.4-0.
+  }
+}
+
 \section{Changes in Version 1.0-6 (2020-08-13)}{
   \itemize{
     \item Interface to \code{S_rcont2} changed in \pkg{stats}, thanks

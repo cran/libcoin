@@ -2,7 +2,7 @@
 /* C Header */
 
 /*
-    Copyright (C) 2017-2019 Torsten Hothorn
+    Copyright (C) 2017-2020 Torsten Hothorn
 
     This file is part of the 'libcoin' R add-on package.
 
@@ -94,21 +94,21 @@ void C_kronecker
     const int overwrite,
     double *ans
 ) {
-    int i, j, k, l, mr, js, ir;
+    int mr, js, ir;
     double y;
 
     if (overwrite) {
-        for (i = 0; i < m * r * n * s; i++) ans[i] = 0.0;
+        for (int i = 0; i < m * r * n * s; i++) ans[i] = 0.0;
     }
 
     mr = m * r;
-    for (i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
         ir = i * r;
-        for (j = 0; j < n; j++) {
+        for (int j = 0; j < n; j++) {
             js = j * s;
             y = A[j*m + i];
-            for (k = 0; k < r; k++) {
-                for (l = 0; l < s; l++)
+            for (int k = 0; k < r; k++) {
+                for (int l = 0; l < s; l++)
                     ans[(js + l) * mr + ir + k] += y * B[l * r + k];
             }
         }
@@ -154,23 +154,23 @@ void C_kronecker_sym
     const int overwrite,
     double *ans
 ) {
-    int i, j, k, l, mr, js, ir, s;
+    int mr, js, ir, s;
     double y;
 
     mr = m * r;
     s = r;
 
     if (overwrite) {
-        for (i = 0; i < mr * (mr + 1) / 2; i++) ans[i] = 0.0;
+        for (int i = 0; i < mr * (mr + 1) / 2; i++) ans[i] = 0.0;
     }
 
-    for (i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
         ir = i * r;
-        for (j = 0; j <= i; j++) {
+        for (int j = 0; j <= i; j++) {
             js = j * s;
             y = A[S(i, j, m)];
-            for (k = 0; k < r; k++) {
-                for (l = 0; l < (j < i ? s : k + 1); l++) {
+            for (int k = 0; k < r; k++) {
+                for (int l = 0; l < (j < i ? s : k + 1); l++) {
                     ans[S(ir + k, js + l, mr)] += y * B[S(k, l, r)];
                 }
             }
@@ -6464,7 +6464,7 @@ void C_ordered_Xfactor
     B = C_get_B(LECV);
     if (B > 1) {
         if (C_get_varonly(LECV))
-            error("need covarinance for maximally statistics with blocks");
+            error("need covariance for maximally statistics with blocks");
         covar = C_get_Covariance(LECV);
     } else {
         covar = C_get_Variance(LECV); /* make -Wall happy */
@@ -6654,7 +6654,7 @@ void C_unordered_Xfactor
     B = C_get_B(LECV);
     if (B > 1) {
         if (C_get_varonly(LECV))
-            error("need covarinance for maximally statistics with blocks");
+            error("need covariance for maximally statistics with blocks");
         covar = C_get_Covariance(LECV);
     } else {
         covar = C_get_Variance(LECV); /* make -Wall happy */
@@ -7661,7 +7661,7 @@ SEXP R_PermutedLinearStatistic_2d
     fact = Calloc(maxn + 1, double);
     /* Calculate log-factorials.  fact[i] = lgamma(i+1) */
     fact[0] = fact[1] = 0.;
-    for(int j = 2; j <= maxn; j++)
+    for (int j = 2; j <= maxn; j++)
         fact[j] = fact[j - 1] + log(j);
     
 

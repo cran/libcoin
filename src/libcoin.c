@@ -2,7 +2,7 @@
 /* C Header */
 
 /*
-    Copyright (C) 2017-2020 Torsten Hothorn
+    Copyright (C) 2017-2021 Torsten Hothorn
 
     This file is part of the 'libcoin' R add-on package.
 
@@ -7687,7 +7687,7 @@ SEXP R_PermutedLinearStatistic_2d
                                 rsum + Lxp1 * b + 1,
                                 csum + Lyp1 * b + 1,
                                 sumweights[b], fact, jwork, rtable2);
-            #else      
+            #else
                         S_rcont2(&Lx, &Ly, rsum + Lxp1 * b + 1,
                                  csum + Lyp1 *b + 1, sumweights + b, fact, jwork, rtable2);
             #endif

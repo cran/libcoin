@@ -2,6 +2,15 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-9 (20YY-MM-DD)}{
+  \itemize{
+    \item \code{R_MPinv_sym} can now determine the full dimension of the packed
+          input \code{x} by setting \code{n} to \code{0L}.
+    \item Add \code{#define USE_FC_LEN_T} to header as requested by CRAN
+          2021-09-25.
+  }
+}
+
 \section{Changes in Version 1.0-8 (2021-02-08)}{
   \itemize{
     \item Fix LaTeX problem.
@@ -14,7 +23,6 @@
     \item Regression tests updated for \pkg{coin} 1.4-0.
   }
 }
-
 
 \section{Changes in Version 1.0-6 (2020-08-13)}{
   \itemize{

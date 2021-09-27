@@ -26,6 +26,7 @@
 
 /* R Includes */
 
+#define USE_FC_LEN_T
 #include <R.h>
 #include <Rinternals.h>
 #include <Rmath.h>
@@ -33,6 +34,9 @@
 #include <R_ext/stats_package.h> /* for S_rcont2 */
 #include <Rversion.h>           // for R_VERSION
 #include <R_ext/Lapack.h> /* for dspev */
+#ifndef FCONE
+# define FCONE
+#endif
 
 /* C Macros */
 

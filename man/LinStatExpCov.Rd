@@ -32,7 +32,7 @@ lmult(x, object)
   \item{standardise}{a logical asking to standardise the permuted statistics.}
   \item{tol}{tolerance for zero variances.}
   \item{x}{a contrast matrix to be left-multiplied in case \code{X} was a factor.}
-  \item{object}{an object of class \code{LinStatExpCov}.}
+  \item{object}{an object of class \code{"LinStatExpCov"}.}
 }
 \details{
   The function, after minimal preprocessing, calls the underlying C code
@@ -62,11 +62,12 @@ lmult(x, object)
   statistics.  \emph{Mathematical Methods of Statistics} \bold{8}(2), 220--250.
 }
 \examples{
-wilcox.test(Ozone ~ Month, data = airquality, subset = Month \%in\% c(5, 8))
+wilcox.test(Ozone ~ Month, data = airquality, subset = Month \%in\% c(5, 8),
+            exact = FALSE, correct = FALSE)
 
 aq <- subset(airquality, Month \%in\% c(5, 8))
 X <- as.double(aq$Month == 5)
-Y <- as.double(rank(aq$Ozone))
+Y <- as.double(rank(aq$Ozone, na.last = "keep"))
 doTest(LinStatExpCov(X, Y))
 }
 \keyword{htest}

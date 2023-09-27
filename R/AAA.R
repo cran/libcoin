@@ -1,7 +1,7 @@
 
 # R Header
 
-###    Copyright (C) 2017-2021 Torsten Hothorn
+###    Copyright (C) 2017-2023 Torsten Hothorn
 ###
 ###    This file is part of the 'libcoin' R add-on package.
 ###
@@ -22,5 +22,6 @@
 ###
 ###    Edit 'libcoin.w' and run 'nuweb -r libcoin.w'
 
-.onUnload <- function(libpath)
+.onUnload <-
+function(libpath)
     library.dynam.unload("libcoin", libpath)

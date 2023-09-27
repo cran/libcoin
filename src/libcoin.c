@@ -2,7 +2,7 @@
 /* C Header */
 
 /*
-    Copyright (C) 2017-2021 Torsten Hothorn
+    Copyright (C) 2017-2023 Torsten Hothorn
 
     This file is part of the 'libcoin' R add-on package.
 
@@ -81,7 +81,7 @@ int NLEVELS
     return(NROW(a));
 }
 
-/* C\_kronecker */
+/* C_kronecker */
 
 void C_kronecker
 (
@@ -115,9 +115,9 @@ void C_kronecker
     }
 }
 
-/* R\_kronecker */
+/* R_kronecker */
 
-/* R\_kronecker Prototype */
+/* R_kronecker Prototype */
 
 SEXP R_kronecker
 (
@@ -143,7 +143,7 @@ SEXP R_kronecker
     return(ans);
 }
 
-/* C\_kronecker\_sym */
+/* C_kronecker_sym */
 
 void C_kronecker_sym
 (
@@ -178,7 +178,7 @@ void C_kronecker_sym
     }
 }
 
-/* C\_KronSums\_sym */
+/* C_KronSums_sym */
 
 /* sum_i (t(x[i,]) %*% x[i,]) */
 void C_KronSums_sym_
@@ -211,7 +211,7 @@ void C_KronSums_sym_
     }
 }
 
-/* C\_MPinv\_sym */
+/* C_MPinv_sym */
 
 void C_MPinv_sym
 (
@@ -233,11 +233,11 @@ void C_MPinv_sym
             rank[0] = 0;
         }
     } else {
-        rx = Calloc(n * (n + 1) / 2, double);
+        rx = R_Calloc(n * (n + 1) / 2, double);
         Memcpy(rx, x, n * (n + 1) / 2);
-        work = Calloc(3 * n, double);
-        val = Calloc(n, double);
-        vec = Calloc(n * n, double);
+        work = R_Calloc(3 * n, double);
+        val = R_Calloc(n, double);
+        vec = R_Calloc(n * n, double);
 
         F77_CALL(dspev)("V", "L", &n, rx, val, vec, &n, work,
                         &info FCONE FCONE);
@@ -260,13 +260,13 @@ void C_MPinv_sym
                 }
             }
         }
-        Free(rx); Free(work); Free(val); Free(vec);
+        R_Free(rx); R_Free(work); R_Free(val); R_Free(vec);
     }
 }
 
-/* R\_MPinv\_sym */
+/* R_MPinv_sym */
 
-/* R\_MPinv\_sym Prototype */
+/* R_MPinv_sym Prototype */
 
 SEXP R_MPinv_sym
 (
@@ -297,9 +297,9 @@ SEXP R_MPinv_sym
     return(ans);
 }
 
-/* R\_unpack\_sym */
+/* R_unpack_sym */
 
-/* R\_unpack\_sym Prototype */
+/* R_unpack_sym Prototype */
 
 SEXP R_unpack_sym
 (
@@ -313,7 +313,7 @@ SEXP R_unpack_sym
     SEXP ans, dimnames;
     double *dx, *dans;
 
-    // m = n * (n + 1)/2 <=> n^2 + n - 2 * m = 0
+    /* m = n * (n + 1)/2 <=> n^2 + n - 2 * m = 0 */
     n = sqrt(0.25 + 2 * XLENGTH(x)) - 0.5;
 
     dx = REAL(x);
@@ -338,11 +338,11 @@ SEXP R_unpack_sym
         }
         dans = REAL(ans);
         for (R_xlen_t i = 0; i < n; i++) {
-            dans[i * n + i] = dx[k];     // diagonal
+            dans[i * n + i] = dx[k];     /* diagonal */
             k++;
             for (R_xlen_t j = i + 1; j < n; j++) {
-                dans[i * n + j] = dx[k]; // lower triangular
-                dans[j * n + i] = dx[k]; // upper triangular
+                dans[i * n + j] = dx[k]; /* lower triangular */
+                dans[j * n + i] = dx[k]; /* upper triangular */
                 k++;
             }
         }
@@ -352,9 +352,9 @@ SEXP R_unpack_sym
     return ans;
 }
 
-/* R\_pack\_sym */
+/* R_pack_sym */
 
-/* R\_pack\_sym Prototype */
+/* R_pack_sym Prototype */
 
 SEXP R_pack_sym
 (
@@ -385,7 +385,7 @@ SEXP R_pack_sym
 
 /* Memory */
 
-/* C\_get\_P */
+/* C_get_P */
 
 int C_get_P
 (
@@ -397,7 +397,7 @@ int C_get_P
     return(INTEGER(VECTOR_ELT(LECV, dim_SLOT))[0]);
 }
 
-/* C\_get\_Q */
+/* C_get_Q */
 
 int C_get_Q
 (
@@ -442,7 +442,7 @@ int mPQB
     return((int) ans);
 }
 
-/* C\_get\_varonly */
+/* C_get_varonly */
 
 int C_get_varonly
 (
@@ -454,7 +454,7 @@ int C_get_varonly
     return(INTEGER(VECTOR_ELT(LECV, varonly_SLOT))[0]);
 }
 
-/* C\_get\_Xfactor */
+/* C_get_Xfactor */
 
 int C_get_Xfactor
 (
@@ -466,7 +466,7 @@ int C_get_Xfactor
     return(INTEGER(VECTOR_ELT(LECV, Xfactor_SLOT))[0]);
 }
 
-/* C\_get\_LinearStatistic */
+/* C_get_LinearStatistic */
 
 double* C_get_LinearStatistic
 (
@@ -478,7 +478,7 @@ double* C_get_LinearStatistic
     return(REAL(VECTOR_ELT(LECV, LinearStatistic_SLOT)));
 }
 
-/* C\_get\_Expectation */
+/* C_get_Expectation */
 
 double* C_get_Expectation
 (
@@ -490,7 +490,7 @@ double* C_get_Expectation
     return(REAL(VECTOR_ELT(LECV, Expectation_SLOT)));
 }
 
-/* C\_get\_Variance */
+/* C_get_Variance */
 
 double* C_get_Variance
 (
@@ -515,7 +515,7 @@ double* C_get_Variance
     return(REAL(VECTOR_ELT(LECV, Variance_SLOT)));
 }
 
-/* C\_get\_Covariance */
+/* C_get_Covariance */
 
 double* C_get_Covariance
 (
@@ -532,7 +532,7 @@ double* C_get_Covariance
     return(REAL(VECTOR_ELT(LECV, Covariance_SLOT)));
 }
 
-/* C\_get\_ExpectationX */
+/* C_get_ExpectationX */
 
 double* C_get_ExpectationX
 (
@@ -544,7 +544,7 @@ double* C_get_ExpectationX
     return(REAL(VECTOR_ELT(LECV, ExpectationX_SLOT)));
 }
 
-/* C\_get\_ExpectationInfluence */
+/* C_get_ExpectationInfluence */
 
 double* C_get_ExpectationInfluence
 (
@@ -556,7 +556,7 @@ double* C_get_ExpectationInfluence
     return(REAL(VECTOR_ELT(LECV, ExpectationInfluence_SLOT)));
 }
 
-/* C\_get\_CovarianceInfluence */
+/* C_get_CovarianceInfluence */
 
 double* C_get_CovarianceInfluence
 (
@@ -568,7 +568,7 @@ double* C_get_CovarianceInfluence
     return(REAL(VECTOR_ELT(LECV, CovarianceInfluence_SLOT)));
 }
 
-/* C\_get\_VarianceInfluence */
+/* C_get_VarianceInfluence */
 
 double* C_get_VarianceInfluence
 (
@@ -580,7 +580,7 @@ double* C_get_VarianceInfluence
     return(REAL(VECTOR_ELT(LECV, VarianceInfluence_SLOT)));
 }
 
-/* C\_get\_TableBlock */
+/* C_get_TableBlock */
 
 double* C_get_TableBlock
 (
@@ -594,7 +594,7 @@ double* C_get_TableBlock
     return(REAL(VECTOR_ELT(LECV, TableBlock_SLOT)));
 }
 
-/* C\_get\_Sumweights */
+/* C_get_Sumweights */
 
 double* C_get_Sumweights
 (
@@ -608,7 +608,7 @@ double* C_get_Sumweights
     return(REAL(VECTOR_ELT(LECV, Sumweights_SLOT)));
 }
 
-/* C\_get\_Table */
+/* C_get_Table */
 
 double* C_get_Table
 (
@@ -622,7 +622,7 @@ double* C_get_Table
     return(REAL(VECTOR_ELT(LECV, Table_SLOT)));
 }
 
-/* C\_get\_dimTable */
+/* C_get_dimTable */
 
 int* C_get_dimTable
 (
@@ -637,7 +637,7 @@ int* C_get_dimTable
                              R_DimSymbol)));
 }
 
-/* C\_get\_B */
+/* C_get_B */
 
 int C_get_B
 (
@@ -651,7 +651,7 @@ int C_get_B
     return(C_get_dimTable(LECV)[2]);
 }
 
-/* C\_get\_nresample */
+/* C_get_nresample */
 
 R_xlen_t C_get_nresample
 (
@@ -664,7 +664,7 @@ R_xlen_t C_get_nresample
     return(XLENGTH(VECTOR_ELT(LECV, PermutedLinearStatistic_SLOT)) / PQ);
 }
 
-/* C\_get\_PermutedLinearStatistic */
+/* C_get_PermutedLinearStatistic */
 
 double* C_get_PermutedLinearStatistic
 (
@@ -676,7 +676,7 @@ double* C_get_PermutedLinearStatistic
     return(REAL(VECTOR_ELT(LECV, PermutedLinearStatistic_SLOT)));
 }
 
-/* C\_get\_tol */
+/* C_get_tol */
 
 double C_get_tol
 (
@@ -688,7 +688,7 @@ double C_get_tol
     return(REAL(VECTOR_ELT(LECV, tol_SLOT))[0]);
 }
 
-/* RC\_init\_LECV\_1d */
+/* RC_init_LECV_1d */
 
 SEXP RC_init_LECV_1d
 (
@@ -710,7 +710,7 @@ SEXP RC_init_LECV_1d
 ) {
     SEXP ans;
 
-    /* R\_init\_LECV */
+    /* R_init_LECV */
     
     SEXP vo, d, names, tolerance, tmp;
     int PQ;
@@ -839,7 +839,7 @@ SEXP RC_init_LECV_1d
     return(ans);
 }
 
-/* RC\_init\_LECV\_2d */
+/* RC_init_LECV_2d */
 
 SEXP RC_init_LECV_2d
 (
@@ -869,7 +869,7 @@ SEXP RC_init_LECV_2d
     if (Ly <= 0)
         error("Ly is not positive");
 
-    /* R\_init\_LECV */
+    /* R_init_LECV */
     
     SEXP vo, d, names, tolerance, tmp;
     int PQ;
@@ -1006,7 +1006,7 @@ SEXP RC_init_LECV_2d
 
 /* P-Values */
 
-/* C\_chisq\_pvalue */
+/* C_chisq_pvalue */
 
 /* lower = 1 means p-value, lower = 0 means 1 - p-value */
 double C_chisq_pvalue
@@ -1019,7 +1019,7 @@ double C_chisq_pvalue
     return(pchisq(stat, (double) df, lower, give_log));
 }
 
-/* C\_perm\_pvalue */
+/* C_perm_pvalue */
 
 double C_perm_pvalue
 (
@@ -1046,7 +1046,7 @@ double C_perm_pvalue
     return(ret);
 }
 
-/* C\_norm\_pvalue */
+/* C_norm_pvalue */
 
 double C_norm_pvalue
 (
@@ -1081,7 +1081,7 @@ double C_norm_pvalue
     return(NA_REAL);
 }
 
-/* C\_maxtype\_pvalue */
+/* C_maxtype_pvalue */
 
 double C_maxtype_pvalue
 (
@@ -1106,16 +1106,16 @@ double C_maxtype_pvalue
     /* Setup mvtnorm Memory */
     
     if (n == 2)
-        corr = Calloc(1, double);
+        corr = R_Calloc(1, double);
     else
-        corr = Calloc(n + ((n - 2) * (n - 1))/2, double);
+        corr = R_Calloc(n + ((n - 2) * (n - 1))/2, double);
 
-    sd = Calloc(n, double);
-    lowerbnd = Calloc(n, double);
-    upperbnd = Calloc(n, double);
-    infin = Calloc(n, int);
-    delta = Calloc(n, double);
-    index = Calloc(n, int);
+    sd = R_Calloc(n, double);
+    lowerbnd = R_Calloc(n, double);
+    upperbnd = R_Calloc(n, double);
+    infin = R_Calloc(n, int);
+    delta = R_Calloc(n, double);
+    index = R_Calloc(n, int);
 
     /* determine elements with non-zero variance */
 
@@ -1183,25 +1183,25 @@ double C_maxtype_pvalue
         default: warning("cmvnorm: unknown problem in MVTDST");
                 ans = 0.0;
     }
-    Free(corr); Free(sd); Free(lowerbnd); Free(upperbnd);
-    Free(infin); Free(delta); Free(index);
+    R_Free(corr); R_Free(sd); R_Free(lowerbnd); R_Free(upperbnd);
+    R_Free(infin); R_Free(delta); R_Free(index);
 
     /* ans = 1 - p-value */
     if (lower) {
         if (give_log)
-            return(log(ans)); /* log(1 - p-value) */
-        return(ans); /* 1 - p-value */
+            return(log(ans));   /* log(1 - p-value) */
+        return(ans);            /* 1 - p-value */
     } else {
         if (give_log)
             return(log1p(ans)); /* log(p-value) */
-        return(1 - ans); /* p-value */
+        return(1 - ans);        /* p-value */
     }
 }
 
 
 /* KronSums */
 
-/* C\_KronSums\_dweights\_dsubset */
+/* C_KronSums_dweights_dsubset */
 
 void C_KronSums_dweights_dsubset
 (
@@ -1334,7 +1334,7 @@ void C_KronSums_dweights_dsubset
     
 }
 
-/* C\_KronSums\_iweights\_dsubset */
+/* C_KronSums_iweights_dsubset */
 
 void C_KronSums_iweights_dsubset
 (
@@ -1468,7 +1468,7 @@ void C_KronSums_iweights_dsubset
     
 }
 
-/* C\_KronSums\_iweights\_isubset */
+/* C_KronSums_iweights_isubset */
 
 void C_KronSums_iweights_isubset
 (
@@ -1601,7 +1601,7 @@ void C_KronSums_iweights_isubset
     
 }
 
-/* C\_KronSums\_dweights\_isubset */
+/* C_KronSums_dweights_isubset */
 
 void C_KronSums_dweights_isubset
 (
@@ -1735,7 +1735,7 @@ void C_KronSums_dweights_isubset
     
 }
 
-/* C\_XfactorKronSums\_dweights\_dsubset */
+/* C_XfactorKronSums_dweights_dsubset */
 
 void C_XfactorKronSums_dweights_dsubset
 (
@@ -1848,7 +1848,7 @@ void C_XfactorKronSums_dweights_dsubset
     
 }
 
-/* C\_XfactorKronSums\_iweights\_dsubset */
+/* C_XfactorKronSums_iweights_dsubset */
 
 void C_XfactorKronSums_iweights_dsubset
 (
@@ -1962,7 +1962,7 @@ void C_XfactorKronSums_iweights_dsubset
     
 }
 
-/* C\_XfactorKronSums\_iweights\_isubset */
+/* C_XfactorKronSums_iweights_isubset */
 
 void C_XfactorKronSums_iweights_isubset
 (
@@ -2075,7 +2075,7 @@ void C_XfactorKronSums_iweights_isubset
     
 }
 
-/* C\_XfactorKronSums\_dweights\_isubset */
+/* C_XfactorKronSums_dweights_isubset */
 
 void C_XfactorKronSums_dweights_isubset
 (
@@ -2189,9 +2189,9 @@ void C_XfactorKronSums_dweights_isubset
     
 }
 
-/* RC\_KronSums */
+/* RC_KronSums */
 
-/* RC\_KronSums Prototype */
+/* RC_KronSums Prototype */
 
 void RC_KronSums
 (
@@ -2300,9 +2300,9 @@ void RC_KronSums
     }
 }
 
-/* R\_KronSums */
+/* R_KronSums */
 
-/* R\_KronSums Prototype */
+/* R_KronSums Prototype */
 
 SEXP R_KronSums
 (
@@ -2358,7 +2358,7 @@ SEXP R_KronSums
     return(ans);
 }
 
-/* C\_KronSums\_Permutation\_isubset */
+/* C_KronSums_Permutation_isubset */
 
 void C_KronSums_Permutation_isubset
 (
@@ -2419,7 +2419,7 @@ void C_KronSums_Permutation_isubset
     
 }
 
-/* C\_KronSums\_Permutation\_dsubset */
+/* C_KronSums_Permutation_dsubset */
 
 void C_KronSums_Permutation_dsubset
 (
@@ -2480,7 +2480,7 @@ void C_KronSums_Permutation_dsubset
     
 }
 
-/* C\_XfactorKronSums\_Permutation\_isubset */
+/* C_XfactorKronSums_Permutation_isubset */
 
 void C_XfactorKronSums_Permutation_isubset
 (
@@ -2537,7 +2537,7 @@ void C_XfactorKronSums_Permutation_isubset
     
 }
 
-/* C\_XfactorKronSums\_Permutation\_dsubset */
+/* C_XfactorKronSums_Permutation_dsubset */
 
 void C_XfactorKronSums_Permutation_dsubset
 (
@@ -2594,9 +2594,9 @@ void C_XfactorKronSums_Permutation_dsubset
     
 }
 
-/* RC\_KronSums\_Permutation */
+/* RC_KronSums_Permutation */
 
-/* RC\_KronSums\_Permutation Prototype */
+/* RC_KronSums_Permutation Prototype */
 
 void RC_KronSums_Permutation
 (
@@ -2663,9 +2663,9 @@ void RC_KronSums_Permutation
     }
 }
 
-/* R\_KronSums\_Permutation */
+/* R_KronSums_Permutation */
 
-/* R\_KronSums\_Permutation Prototype */
+/* R_KronSums_Permutation Prototype */
 
 SEXP R_KronSums_Permutation
 (
@@ -2714,7 +2714,7 @@ SEXP R_KronSums_Permutation
 
 /* colSums */
 
-/* C\_colSums\_dweights\_dsubset */
+/* C_colSums_dweights_dsubset */
 
 void C_colSums_dweights_dsubset
 (
@@ -2815,7 +2815,7 @@ void C_colSums_dweights_dsubset
     
 }
 
-/* C\_colSums\_iweights\_dsubset */
+/* C_colSums_iweights_dsubset */
 
 void C_colSums_iweights_dsubset
 (
@@ -2917,7 +2917,7 @@ void C_colSums_iweights_dsubset
     
 }
 
-/* C\_colSums\_iweights\_isubset */
+/* C_colSums_iweights_isubset */
 
 void C_colSums_iweights_isubset
 (
@@ -3018,7 +3018,7 @@ void C_colSums_iweights_isubset
     
 }
 
-/* C\_colSums\_dweights\_isubset */
+/* C_colSums_dweights_isubset */
 
 void C_colSums_dweights_isubset
 (
@@ -3120,9 +3120,9 @@ void C_colSums_dweights_isubset
     
 }
 
-/* RC\_colSums */
+/* RC_colSums */
 
-/* RC\_colSums Prototype */
+/* RC_colSums Prototype */
 
 void RC_colSums
 (
@@ -3190,9 +3190,9 @@ void RC_colSums
     }
 }
 
-/* R\_colSums */
+/* R_colSums */
 
-/* R\_colSums Prototype */
+/* R_colSums Prototype */
 
 SEXP R_colSums
 (
@@ -3237,7 +3237,7 @@ SEXP R_colSums
 
 /* SimpleSums */
 
-/* C\_Sums\_dweights\_dsubset */
+/* C_Sums_dweights_dsubset */
 
 double C_Sums_dweights_dsubset
 (
@@ -3310,7 +3310,7 @@ double C_Sums_dweights_dsubset
     
 }
 
-/* C\_Sums\_iweights\_dsubset */
+/* C_Sums_iweights_dsubset */
 
 double C_Sums_iweights_dsubset
 (
@@ -3384,7 +3384,7 @@ double C_Sums_iweights_dsubset
     
 }
 
-/* C\_Sums\_iweights\_isubset */
+/* C_Sums_iweights_isubset */
 
 double C_Sums_iweights_isubset
 (
@@ -3457,7 +3457,7 @@ double C_Sums_iweights_isubset
     
 }
 
-/* C\_Sums\_dweights\_isubset */
+/* C_Sums_dweights_isubset */
 
 double C_Sums_dweights_isubset
 (
@@ -3531,9 +3531,9 @@ double C_Sums_dweights_isubset
     
 }
 
-/* RC\_Sums */
+/* RC_Sums */
 
-/* RC\_Sums Prototype */
+/* RC_Sums Prototype */
 
 double RC_Sums
 (
@@ -3586,9 +3586,9 @@ double RC_Sums
     }
 }
 
-/* R\_Sums */
+/* R_Sums */
 
-/* R\_Sums Prototype */
+/* R_Sums Prototype */
 
 SEXP R_Sums
 (
@@ -3625,7 +3625,7 @@ SEXP R_Sums
 
 /* Tables */
 
-/* C\_OneTableSums\_dweights\_dsubset */
+/* C_OneTableSums_dweights_dsubset */
 
 void C_OneTableSums_dweights_dsubset
 (
@@ -3718,7 +3718,7 @@ void C_OneTableSums_dweights_dsubset
     
 }
 
-/* C\_OneTableSums\_iweights\_dsubset */
+/* C_OneTableSums_iweights_dsubset */
 
 void C_OneTableSums_iweights_dsubset
 (
@@ -3812,7 +3812,7 @@ void C_OneTableSums_iweights_dsubset
     
 }
 
-/* C\_OneTableSums\_iweights\_isubset */
+/* C_OneTableSums_iweights_isubset */
 
 void C_OneTableSums_iweights_isubset
 (
@@ -3905,7 +3905,7 @@ void C_OneTableSums_iweights_isubset
     
 }
 
-/* C\_OneTableSums\_dweights\_isubset */
+/* C_OneTableSums_dweights_isubset */
 
 void C_OneTableSums_dweights_isubset
 (
@@ -3999,9 +3999,9 @@ void C_OneTableSums_dweights_isubset
     
 }
 
-/* RC\_OneTableSums */
+/* RC_OneTableSums */
 
-/* RC\_OneTableSums Prototype */
+/* RC_OneTableSums Prototype */
 
 void RC_OneTableSums
 (
@@ -4066,9 +4066,9 @@ void RC_OneTableSums
     }
 }
 
-/* R\_OneTableSums */
+/* R_OneTableSums */
 
-/* R\_OneTableSums Prototype */
+/* R_OneTableSums Prototype */
 
 SEXP R_OneTableSums
 (
@@ -4109,7 +4109,7 @@ SEXP R_OneTableSums
     return(ans);
 }
 
-/* C\_TwoTableSums\_dweights\_dsubset */
+/* C_TwoTableSums_dweights_dsubset */
 
 void C_TwoTableSums_dweights_dsubset
 (
@@ -4213,7 +4213,7 @@ void C_TwoTableSums_dweights_dsubset
     
 }
 
-/* C\_TwoTableSums\_iweights\_dsubset */
+/* C_TwoTableSums_iweights_dsubset */
 
 void C_TwoTableSums_iweights_dsubset
 (
@@ -4318,7 +4318,7 @@ void C_TwoTableSums_iweights_dsubset
     
 }
 
-/* C\_TwoTableSums\_iweights\_isubset */
+/* C_TwoTableSums_iweights_isubset */
 
 void C_TwoTableSums_iweights_isubset
 (
@@ -4422,7 +4422,7 @@ void C_TwoTableSums_iweights_isubset
     
 }
 
-/* C\_TwoTableSums\_dweights\_isubset */
+/* C_TwoTableSums_dweights_isubset */
 
 void C_TwoTableSums_dweights_isubset
 (
@@ -4527,9 +4527,9 @@ void C_TwoTableSums_dweights_isubset
     
 }
 
-/* RC\_TwoTableSums */
+/* RC_TwoTableSums */
 
-/* RC\_TwoTableSums Prototype */
+/* RC_TwoTableSums Prototype */
 
 void RC_TwoTableSums
 (
@@ -4602,9 +4602,9 @@ void RC_TwoTableSums
     }
 }
 
-/* R\_TwoTableSums */
+/* R_TwoTableSums */
 
-/* R\_TwoTableSums Prototype */
+/* R_TwoTableSums Prototype */
 
 SEXP R_TwoTableSums
 (
@@ -4654,7 +4654,7 @@ SEXP R_TwoTableSums
     return(ans);
 }
 
-/* C\_ThreeTableSums\_dweights\_dsubset */
+/* C_ThreeTableSums_dweights_dsubset */
 
 void C_ThreeTableSums_dweights_dsubset
 (
@@ -4769,7 +4769,7 @@ void C_ThreeTableSums_dweights_dsubset
     
 }
 
-/* C\_ThreeTableSums\_iweights\_dsubset */
+/* C_ThreeTableSums_iweights_dsubset */
 
 void C_ThreeTableSums_iweights_dsubset
 (
@@ -4885,7 +4885,7 @@ void C_ThreeTableSums_iweights_dsubset
     
 }
 
-/* C\_ThreeTableSums\_iweights\_isubset */
+/* C_ThreeTableSums_iweights_isubset */
 
 void C_ThreeTableSums_iweights_isubset
 (
@@ -5000,7 +5000,7 @@ void C_ThreeTableSums_iweights_isubset
     
 }
 
-/* C\_ThreeTableSums\_dweights\_isubset */
+/* C_ThreeTableSums_dweights_isubset */
 
 void C_ThreeTableSums_dweights_isubset
 (
@@ -5116,9 +5116,9 @@ void C_ThreeTableSums_dweights_isubset
     
 }
 
-/* RC\_ThreeTableSums */
+/* RC_ThreeTableSums */
 
-/* RC\_ThreeTableSums Prototype */
+/* RC_ThreeTableSums Prototype */
 
 void RC_ThreeTableSums
 (
@@ -5199,9 +5199,9 @@ void RC_ThreeTableSums
     }
 }
 
-/* R\_ThreeTableSums */
+/* R_ThreeTableSums */
 
-/* R\_ThreeTableSums Prototype */
+/* R_ThreeTableSums Prototype */
 
 SEXP R_ThreeTableSums
 (
@@ -5261,7 +5261,7 @@ SEXP R_ThreeTableSums
 
 /* Utils */
 
-/* C\_setup\_subset */
+/* C_setup_subset */
 
 void C_setup_subset
 (
@@ -5281,7 +5281,7 @@ void C_setup_subset
     }
 }
 
-/* C\_setup\_subset\_block */
+/* C_setup_subset_block */
 
 void C_setup_subset_block
 (
@@ -5302,7 +5302,7 @@ void C_setup_subset_block
     double *cumtable;
     int Nlevels = LENGTH(blockTable);
 
-    cumtable = Calloc(Nlevels, double);
+    cumtable = R_Calloc(Nlevels, double);
     for (int k = 0; k < Nlevels; k++) cumtable[k] = 0.0;
 
     /* table[0] are missings, ie block == 0 ! */
@@ -5318,10 +5318,10 @@ void C_setup_subset_block
         }
     }
 
-    Free(cumtable);
+    R_Free(cumtable);
 }
 
-/* C\_order\_subset\_wrt\_block */
+/* C_order_subset_wrt_block */
 
 void C_order_subset_wrt_block
 (
@@ -5342,7 +5342,7 @@ void C_order_subset_wrt_block
     double *cumtable;
     int Nlevels = LENGTH(blockTable);
 
-    cumtable = Calloc(Nlevels, double);
+    cumtable = R_Calloc(Nlevels, double);
     for (int k = 0; k < Nlevels; k++) cumtable[k] = 0.0;
 
     /* table[0] are missings, ie block == 0 ! */
@@ -5358,12 +5358,12 @@ void C_order_subset_wrt_block
             REAL(ans)[(R_xlen_t) cumtable[INTEGER(block)[(R_xlen_t) REAL(subset)[i] - 1]]++] = REAL(subset)[i];
     }
 
-    Free(cumtable);
+    R_Free(cumtable);
 }
 
-/* RC\_order\_subset\_wrt\_block */
+/* RC_order_subset_wrt_block */
 
-/* RC\_order\_subset\_wrt\_block Prototype */
+/* RC_order_subset_wrt_block Prototype */
 
 SEXP RC_order_subset_wrt_block
 (
@@ -5410,9 +5410,9 @@ SEXP RC_order_subset_wrt_block
     }
 }
 
-/* R\_order\_subset\_wrt\_block */
+/* R_order_subset_wrt_block */
 
-/* R\_order\_subset\_wrt\_block Prototype */
+/* R_order_subset_wrt_block Prototype */
 
 SEXP R_order_subset_wrt_block
 (
@@ -5463,9 +5463,9 @@ SEXP R_order_subset_wrt_block
 
 /* LinearStatistics */
 
-/* RC\_LinearStatistic */
+/* RC_LinearStatistic */
 
-/* RC\_LinearStatistic Prototype */
+/* RC_LinearStatistic Prototype */
 
 void RC_LinearStatistic
 (
@@ -5521,9 +5521,9 @@ void RC_LinearStatistic
 
 /* Permutations */
 
-/* RC\_setup\_subset */
+/* RC_setup_subset */
 
-/* RC\_setup\_subset Prototype */
+/* RC_setup_subset Prototype */
 
 SEXP RC_setup_subset
 (
@@ -5574,7 +5574,7 @@ SEXP RC_setup_subset
     return(ans);
 }
 
-/* C\_Permute */
+/* C_Permute */
 
 void C_Permute
 (
@@ -5594,7 +5594,7 @@ void C_Permute
     }
 }
 
-/* C\_doPermute */
+/* C_doPermute */
 
 void C_doPermute
 (
@@ -5610,7 +5610,7 @@ void C_doPermute
     C_Permute(Nsubset_tmp, Nsubset, perm);
 }
 
-/* C\_PermuteBlock */
+/* C_PermuteBlock */
 
 void C_PermuteBlock
 (
@@ -5633,7 +5633,7 @@ void C_PermuteBlock
     }
 }
 
-/* C\_doPermuteBlock */
+/* C_doPermuteBlock */
 
 void C_doPermuteBlock
 (
@@ -5654,9 +5654,9 @@ void C_doPermuteBlock
 
 /* ExpectationCovariances */
 
-/* RC\_ExpectationInfluence */
+/* RC_ExpectationInfluence */
 
-/* RC\_ExpectationInfluence Prototype */
+/* RC_ExpectationInfluence Prototype */
 
 void RC_ExpectationInfluence
 (
@@ -5707,9 +5707,9 @@ void RC_ExpectationInfluence
         P_ans[q] = P_ans[q] / sumweights;
 }
 
-/* R\_ExpectationInfluence */
+/* R_ExpectationInfluence */
 
-/* R\_ExpectationInfluence Prototype */
+/* R_ExpectationInfluence Prototype */
 
 SEXP R_ExpectationInfluence
 (
@@ -5755,9 +5755,9 @@ SEXP R_ExpectationInfluence
     return(ans);
 }
 
-/* RC\_CovarianceInfluence */
+/* RC_CovarianceInfluence */
 
-/* RC\_CovarianceInfluence Prototype */
+/* RC_CovarianceInfluence Prototype */
 
 void RC_CovarianceInfluence
 (
@@ -5815,9 +5815,9 @@ void RC_CovarianceInfluence
     }
 }
 
-/* R\_CovarianceInfluence */
+/* R_CovarianceInfluence */
 
-/* R\_CovarianceInfluence Prototype */
+/* R_CovarianceInfluence Prototype */
 
 SEXP R_CovarianceInfluence
 (
@@ -5872,9 +5872,9 @@ SEXP R_CovarianceInfluence
     return(ans);
 }
 
-/* RC\_ExpectationX */
+/* RC_ExpectationX */
 
-/* RC\_ExpectationX Prototype */
+/* RC_ExpectationX Prototype */
 
 void RC_ExpectationX
 (
@@ -5916,18 +5916,18 @@ void RC_ExpectationX
     double center;
 
     if (TYPEOF(x) == INTSXP) {
-        double* Pp1tmp = Calloc(P + 1, double);
+        double* Pp1tmp = R_Calloc(P + 1, double);
         RC_OneTableSums(INTEGER(x), N, P + 1, weights, subset, offset, Nsubset, Pp1tmp);
         for (int p = 0; p < P; p++) P_ans[p] = Pp1tmp[p + 1];
-        Free(Pp1tmp);
+        R_Free(Pp1tmp);
     } else {
         RC_colSums(REAL(x), N, P, Power1, &center, !DoCenter, weights, subset, offset, Nsubset, P_ans);
     }
 }
 
-/* R\_ExpectationX */
+/* R_ExpectationX */
 
-/* R\_ExpectationX Prototype */
+/* R_ExpectationX Prototype */
 
 SEXP R_ExpectationX
 (
@@ -5967,9 +5967,9 @@ SEXP R_ExpectationX
     return(ans);
 }
 
-/* RC\_CovarianceX */
+/* RC_CovarianceX */
 
-/* RC\_CovarianceX Prototype */
+/* RC_CovarianceX Prototype */
 
 void RC_CovarianceX
 (
@@ -6032,9 +6032,9 @@ void RC_CovarianceX
     }
 }
 
-/* R\_CovarianceX */
+/* R_CovarianceX */
 
-/* R\_CovarianceX Prototype */
+/* R_CovarianceX Prototype */
 
 SEXP R_CovarianceX
 (
@@ -6082,7 +6082,7 @@ SEXP R_CovarianceX
     return(ans);
 }
 
-/* C\_ExpectationLinearStatistic */
+/* C_ExpectationLinearStatistic */
 
 void C_ExpectationLinearStatistic
 (
@@ -6108,7 +6108,7 @@ void C_ExpectationLinearStatistic
     }
 }
 
-/* C\_CovarianceLinearStatistic */
+/* C_CovarianceLinearStatistic */
 
 void C_CovarianceLinearStatistic
 (
@@ -6143,18 +6143,18 @@ void C_CovarianceLinearStatistic
             PQPQ_sym_ans[0] = tmp;
         }
     } else {
-        PP_sym_tmp = Calloc(PP12(P), double);
+        PP_sym_tmp = R_Calloc(PP12(P), double);
         C_KronSums_sym_(ExpX, 1, P,
                         PP_sym_tmp);
         for (int p = 0; p < PP12(P); p++)
             PP_sym_tmp[p] = f1 * CovX[p] - f2 * PP_sym_tmp[p];
         C_kronecker_sym(CovInf, Q, PP_sym_tmp, P, 1 - (add >= 1),
                         PQPQ_sym_ans);
-        Free(PP_sym_tmp);
+        R_Free(PP_sym_tmp);
     }
 }
 
-/* C\_VarianceLinearStatistic */
+/* C_VarianceLinearStatistic */
 
 void C_VarianceLinearStatistic
 (
@@ -6182,21 +6182,21 @@ void C_VarianceLinearStatistic
                                     PQ_ans);
     } else {
         double *P_tmp;
-        P_tmp = Calloc(P, double);
+        P_tmp = R_Calloc(P, double);
         double f1 = sumweights / (sumweights - 1);
         double f2 = 1.0 / (sumweights - 1);
         for (int p = 0; p < P; p++)
             P_tmp[p] = f1 * VarX[p] - f2 * ExpX[p] * ExpX[p];
         C_kronecker(VarInf, 1, Q, P_tmp, 1, P, 1 - (add >= 1),
                     PQ_ans);
-        Free(P_tmp);
+        R_Free(P_tmp);
     }
 }
 
 
 /* Test Statistics */
 
-/* C\_maxstand\_Covariance */
+/* C_maxstand_Covariance */
 
 double C_maxstand_Covariance
 (
@@ -6217,7 +6217,7 @@ double C_maxstand_Covariance
     return(ans);
 }
 
-/* C\_maxstand\_Variance */
+/* C_maxstand_Variance */
 
 double C_maxstand_Variance
 (
@@ -6238,7 +6238,7 @@ double C_maxstand_Variance
     return(ans);
 }
 
-/* C\_minstand\_Covariance */
+/* C_minstand_Covariance */
 
 double C_minstand_Covariance
 (
@@ -6259,7 +6259,7 @@ double C_minstand_Covariance
     return(ans);
 }
 
-/* C\_minstand\_Variance */
+/* C_minstand_Variance */
 
 double C_minstand_Variance
 (
@@ -6280,7 +6280,7 @@ double C_minstand_Variance
     return(ans);
 }
 
-/* C\_maxabsstand\_Covariance */
+/* C_maxabsstand_Covariance */
 
 double C_maxabsstand_Covariance
 (
@@ -6302,7 +6302,7 @@ double C_maxabsstand_Covariance
     return(ans);
 }
 
-/* C\_maxabsstand\_Variance */
+/* C_maxabsstand_Variance */
 
 double C_maxabsstand_Variance
 (
@@ -6323,7 +6323,7 @@ double C_maxabsstand_Variance
     return(ans);
 }
 
-/* C\_quadform */
+/* C_quadform */
 
 double C_quadform
 (
@@ -6344,9 +6344,9 @@ double C_quadform
     return(ans);
 }
 
-/* R\_quadform */
+/* R_quadform */
 
-/* R\_quadform Prototype */
+/* R_quadform Prototype */
 
 SEXP R_quadform
 (
@@ -6375,7 +6375,7 @@ SEXP R_quadform
     return(ans);
 }
 
-/* C\_maxtype */
+/* C_maxtype */
 
 double C_maxtype
 (
@@ -6409,12 +6409,12 @@ double C_maxtype
     return(ret);
 }
 
-/* C\_standardise */
+/* C_standardise */
 
 void C_standardise
 (
     const int PQ,
-    double *linstat,            /* in place standardisation */
+    double *linstat,      /* in place standardisation */
     const double *expect,
     const double *covar,
     const int varonly,
@@ -6436,7 +6436,7 @@ void C_standardise
     }
 }
 
-/* C\_ordered\_Xfactor */
+/* C_ordered_Xfactor */
 
 void C_ordered_Xfactor
 (
@@ -6488,24 +6488,24 @@ void C_ordered_Xfactor
 
     /* Setup maxstat Memory */
     
-    mlinstat = Calloc(Q, double);
-    mexpect = Calloc(Q, double);
+    mlinstat = R_Calloc(Q, double);
+    mexpect = R_Calloc(Q, double);
     if (teststat == TESTSTAT_maximum) {
-       mvar = Calloc(Q, double);
-       /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-       mcovar = Calloc(1, double);
-       mMPinv = Calloc(1, double);
+        mvar = R_Calloc(Q, double);
+        /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
+        mcovar = R_Calloc(1, double);
+        mMPinv = R_Calloc(1, double);
     } else {
-       mcovar = Calloc(Q * (Q + 1) / 2, double);
-       mMPinv = Calloc(Q * (Q + 1) / 2, double);
-       /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-       mvar = Calloc(1, double);
+        mcovar = R_Calloc(Q * (Q + 1) / 2, double);
+        mMPinv = R_Calloc(Q * (Q + 1) / 2, double);
+        /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
+        mvar = R_Calloc(1, double);
     }
     if (nresample > 0) {
-        mblinstat = Calloc(Q * nresample, double);
+        mblinstat = R_Calloc(Q * nresample, double);
     } else { /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-        mblinstat = Calloc(1, double);
-        blinstat = Calloc(1, double);
+        mblinstat = R_Calloc(1, double);
+        blinstat = R_Calloc(1, double);
     }
 
     maxstat[0] = 0.0;
@@ -6561,13 +6561,13 @@ void C_ordered_Xfactor
                 if (teststat == TESTSTAT_maximum) {
                     for (int pp = 0; pp < p; pp++)
                         mvar[q] += 2 * covar[S(pp + q * P, p + P * q, mPQB(P, Q, 1))];
-                     mvar[q] += covar[S(p + q * P, p + P * q, mPQB(P, Q, 1))];
+                    mvar[q] += covar[S(p + q * P, p + P * q, mPQB(P, Q, 1))];
                 } else {
-                     for (int qq = 0; qq <= q; qq++) {
-                         for (int pp = 0; pp < p; pp++)
-                             mcovar[S(q, qq, Q)] += 2 * covar[S(pp + q * P, p + P * qq, mPQB(P, Q, 1))];
-                         mcovar[S(q, qq, Q)] += covar[S(p + q * P, p + P * qq, mPQB(P, Q, 1))];
-                     }
+                    for (int qq = 0; qq <= q; qq++) {
+                        for (int pp = 0; pp < p; pp++)
+                            mcovar[S(q, qq, Q)] += 2 * covar[S(pp + q * P, p + P * qq, mPQB(P, Q, 1))];
+                        mcovar[S(q, qq, Q)] += covar[S(p + q * P, p + P * qq, mPQB(P, Q, 1))];
+                    }
                 }
                 
             }
@@ -6618,12 +6618,12 @@ void C_ordered_Xfactor
         pval[0] = C_perm_pvalue(greater, nresample, lower, give_log);
     }
     
-    Free(mlinstat); Free(mexpect); Free(mblinstat);
-    Free(mvar); Free(mcovar); Free(mMPinv);
-    if (nresample == 0) Free(blinstat);
+    R_Free(mlinstat); R_Free(mexpect); R_Free(mblinstat);
+    R_Free(mvar); R_Free(mcovar); R_Free(mMPinv);
+    if (nresample == 0) R_Free(blinstat);
 }
 
-/* C\_unordered\_Xfactor */
+/* C_unordered_Xfactor */
 
 void C_unordered_Xfactor
 (
@@ -6678,24 +6678,24 @@ void C_unordered_Xfactor
 
     /* Setup maxstat Memory */
     
-    mlinstat = Calloc(Q, double);
-    mexpect = Calloc(Q, double);
+    mlinstat = R_Calloc(Q, double);
+    mexpect = R_Calloc(Q, double);
     if (teststat == TESTSTAT_maximum) {
-       mvar = Calloc(Q, double);
-       /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-       mcovar = Calloc(1, double);
-       mMPinv = Calloc(1, double);
+        mvar = R_Calloc(Q, double);
+        /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
+        mcovar = R_Calloc(1, double);
+        mMPinv = R_Calloc(1, double);
     } else {
-       mcovar = Calloc(Q * (Q + 1) / 2, double);
-       mMPinv = Calloc(Q * (Q + 1) / 2, double);
-       /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-       mvar = Calloc(1, double);
+        mcovar = R_Calloc(Q * (Q + 1) / 2, double);
+        mMPinv = R_Calloc(Q * (Q + 1) / 2, double);
+        /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
+        mvar = R_Calloc(1, double);
     }
     if (nresample > 0) {
-        mblinstat = Calloc(Q * nresample, double);
+        mblinstat = R_Calloc(Q * nresample, double);
     } else { /* not needed, but allocate anyway to make -Wmaybe-uninitialized happy */
-        mblinstat = Calloc(1, double);
-        blinstat = Calloc(1, double);
+        mblinstat = R_Calloc(1, double);
+        blinstat = R_Calloc(1, double);
     }
 
     maxstat[0] = 0.0;
@@ -6721,18 +6721,18 @@ void C_unordered_Xfactor
         sumright += ExpX[p];
     sumweights = sumright;
     
-    mtmp = Calloc(P, double);
+    mtmp = R_Calloc(P, double);
 
     for (int p = 0; p < P; p++) wmax[p] = NA_INTEGER;
 
     /* Count Levels */
     
-    contrast = Calloc(P, int);
+    contrast = R_Calloc(P, int);
     Pnonzero = 0;
     for (int p = 0; p < P; p++) {
         if (ExpX[p] > 0) Pnonzero++;
     }
-    levels = Calloc(Pnonzero, int);
+    levels = R_Calloc(Pnonzero, int);
     nc = 0;
     for (int p = 0; p < P; p++) {
         if (ExpX[p] > 0) {
@@ -6746,7 +6746,7 @@ void C_unordered_Xfactor
 
     int mi = 1;
     for (int l = 1; l < Pnonzero; l++) mi *= 2;
-    indl = Calloc(Pnonzero, int);
+    indl = R_Calloc(Pnonzero, int);
     for (int p = 0; p < Pnonzero; p++) indl[p] = 0;
     
 
@@ -6881,15 +6881,15 @@ void C_unordered_Xfactor
     }
     
 
-    Free(mlinstat); Free(mexpect); Free(levels); Free(contrast); Free(indl); Free(mtmp);
-    Free(mblinstat); Free(mvar); Free(mcovar); Free(mMPinv);
-    if (nresample == 0) Free(blinstat);
+    R_Free(mlinstat); R_Free(mexpect); R_Free(levels); R_Free(contrast); R_Free(indl); R_Free(mtmp);
+    R_Free(mblinstat); R_Free(mvar); R_Free(mcovar); R_Free(mMPinv);
+    if (nresample == 0) R_Free(blinstat);
 }
 
 
 /* User Interface */
 
-/* RC\_ExpectationCovarianceStatistic */
+/* RC_ExpectationCovarianceStatistic */
 
 void RC_ExpectationCovarianceStatistic
 (
@@ -6961,17 +6961,16 @@ void RC_ExpectationCovarianceStatistic
     CovInf = C_get_CovarianceInfluence(ans);
     ExpXtotal = C_get_ExpectationX(ans);
     for (int p = 0; p < P; p++) ExpXtotal[p] = 0.0;
-    ExpX = Calloc(P, double);
+    ExpX = R_Calloc(P, double);
     /* Fix by Joanidis Kristoforos: P > INT_MAX is possible
        for maximally selected statistics (when X is an integer).
-       2018-12-13
-    */
+       2018-12-13 */
     if (C_get_varonly(ans)) {
-        VarX = Calloc(P, double);
-        CovX = Calloc(1, double);
+        VarX = R_Calloc(P, double);
+        CovX = R_Calloc(1, double);
     } else {
-        VarX = Calloc(1, double);
-        CovX = Calloc(PP12(P), double);
+        VarX = R_Calloc(1, double);
+        CovX = R_Calloc(PP12(P), double);
     }
     table = C_get_TableBlock(ans);
     sumweights = C_get_Sumweights(ans);
@@ -6997,7 +6996,7 @@ void RC_ExpectationCovarianceStatistic
 
         /* Compute Sum of Weights in Block */
         
-        /* compute sum of weights in block b of subset */
+        /* compute sum of case weights in block b of subset */
         if (table[b + 1] > 0) {
             sumweights[b] = RC_Sums(N, weights, subset_block,
                                     offset, (R_xlen_t) table[b + 1]);
@@ -7067,13 +7066,13 @@ void RC_ExpectationCovarianceStatistic
     }
     
 
-    Free(ExpX); Free(VarX); Free(CovX);
+    R_Free(ExpX); R_Free(VarX); R_Free(CovX);
     UNPROTECT(2);
 }
 
-/* R\_ExpectationCovarianceStatistic */
+/* R_ExpectationCovarianceStatistic */
 
-/* R\_ExpectationCovarianceStatistic Prototype */
+/* R_ExpectationCovarianceStatistic Prototype */
 
 SEXP R_ExpectationCovarianceStatistic
 (
@@ -7131,9 +7130,9 @@ SEXP R_ExpectationCovarianceStatistic
     return(ans);
 }
 
-/* R\_PermutedLinearStatistic */
+/* R_PermutedLinearStatistic */
 
-/* R\_PermutedLinearStatistic Prototype */
+/* R_PermutedLinearStatistic Prototype */
 
 SEXP R_PermutedLinearStatistic
 (
@@ -7245,9 +7244,9 @@ SEXP R_PermutedLinearStatistic
     return(ans);
 }
 
-/* R\_StandardisePermutedLinearStatistic */
+/* R_StandardisePermutedLinearStatistic */
 
-/* R\_StandardisePermutedLinearStatistic Prototype */
+/* R_StandardisePermutedLinearStatistic Prototype */
 
 SEXP R_StandardisePermutedLinearStatistic
 (
@@ -7283,7 +7282,7 @@ SEXP R_StandardisePermutedLinearStatistic
 
 /* 2d User Interface */
 
-/* RC\_ExpectationCovarianceStatistic\_2d */
+/* RC_ExpectationCovarianceStatistic_2d */
 
 void RC_ExpectationCovarianceStatistic_2d
 (
@@ -7335,12 +7334,12 @@ void RC_ExpectationCovarianceStatistic_2d
     Xfactor = C_get_Xfactor(ans);
 
     if (C_get_varonly(ans)) {
-        CovX = Calloc(P, double);
+        CovX = R_Calloc(P, double);
     } else {
-        CovX = Calloc(PP12(P), double);
+        CovX = R_Calloc(PP12(P), double);
     }
 
-    table2d = Calloc(Lxp1 * Lyp1, double);
+    table2d = R_Calloc(Lxp1 * Lyp1, double);
     PROTECT(Rcsum = allocVector(REALSXP, Lyp1));
     csum = REAL(Rcsum);
     PROTECT(Rrsum = allocVector(REALSXP, Lxp1));
@@ -7369,7 +7368,7 @@ void RC_ExpectationCovarianceStatistic_2d
         /* Linear Statistic 2d */
         
         if (Xfactor) {
-            for (int j = 1; j < Lyp1; j++) { /* j = 0 means NA */
+            for (int j = 1; j < Lyp1; j++) {     /* j = 0 means NA */
                 for (int i = 1; i < Lxp1; i++) { /* i = 0 means NA */
                     for (int q = 0; q < Q; q++)
                         linstat[q * (Lxp1 - 1) + (i - 1)] +=
@@ -7464,14 +7463,14 @@ void RC_ExpectationCovarianceStatistic_2d
             C_get_Variance(ans)[p] = C_get_Covariance(ans)[S(p, p, mPQB(P, Q, 1))];
     }
 
-    Free(CovX);
-    Free(table2d);
+    R_Free(CovX);
+    R_Free(table2d);
     UNPROTECT(2);
 }
 
-/* R\_ExpectationCovarianceStatistic\_2d */
+/* R_ExpectationCovarianceStatistic_2d */
 
-/* R\_ExpectationCovarianceStatistic\_2d Prototype */
+/* R_ExpectationCovarianceStatistic_2d Prototype */
 
 SEXP R_ExpectationCovarianceStatistic_2d
 (
@@ -7558,9 +7557,9 @@ SEXP R_ExpectationCovarianceStatistic_2d
     return(ans);
 }
 
-/* R\_PermutedLinearStatistic\_2d */
+/* R_PermutedLinearStatistic_2d */
 
-/* R\_PermutedLinearStatistic\_2d Prototype */
+/* R_PermutedLinearStatistic_2d Prototype */
 
 SEXP R_PermutedLinearStatistic_2d
 (
@@ -7617,12 +7616,12 @@ SEXP R_PermutedLinearStatistic_2d
 
     /* Setup Working Memory */
     
-    csum = Calloc(Lyp1 * B, int);
-    rsum = Calloc(Lxp1 * B, int);
-    sumweights = Calloc(B, int);
-    table = Calloc(Lxp1 * Lyp1, int);
-    rtable2 = Calloc(Lx * Ly , int);
-    jwork = Calloc(Lyp1, int);
+    csum = R_Calloc(Lyp1 * B, int);
+    rsum = R_Calloc(Lxp1 * B, int);
+    sumweights = R_Calloc(B, int);
+    table = R_Calloc(Lxp1 * Lyp1, int);
+    rtable2 = R_Calloc(Lx * Ly , int);
+    jwork = R_Calloc(Lyp1, int);
     
 
     /* Convert Table to Integer */
@@ -7663,7 +7662,7 @@ SEXP R_PermutedLinearStatistic_2d
 
     /* Setup Log-Factorials */
     
-    fact = Calloc(maxn + 1, double);
+    fact = R_Calloc(maxn + 1, double);
     /* Calculate log-factorials.  fact[i] = lgamma(i+1) */
     fact[0] = fact[1] = 0.;
     for (int j = 2; j <= maxn; j++)
@@ -7689,12 +7688,14 @@ SEXP R_PermutedLinearStatistic_2d
             
             #if defined(R_VERSION) && R_VERSION >= R_Version(4, 1, 0)
                         S_rcont2(Lx, Ly,
-                                rsum + Lxp1 * b + 1,
-                                csum + Lyp1 * b + 1,
-                                sumweights[b], fact, jwork, rtable2);
+                                 rsum + Lxp1 * b + 1,
+                                 csum + Lyp1 * b + 1,
+                                 sumweights[b], fact, jwork, rtable2);
             #else
-                        S_rcont2(&Lx, &Ly, rsum + Lxp1 * b + 1,
-                                 csum + Lyp1 *b + 1, sumweights + b, fact, jwork, rtable2);
+                        S_rcont2(&Lx, &Ly,
+                                 rsum + Lxp1 * b + 1,
+                                 csum + Lyp1 * b + 1,
+                                 sumweights + b, fact, jwork, rtable2);
             #endif
 
             for (int j1 = 1; j1 <= Lx; j1++) {
@@ -7705,7 +7706,7 @@ SEXP R_PermutedLinearStatistic_2d
             /* Linear Statistic 2d */
 
             if (Xfactor) {
-                for (int j = 1; j < Lyp1; j++) { /* j = 0 means NA */
+                for (int j = 1; j < Lyp1; j++) {     /* j = 0 means NA */
                     for (int i = 1; i < Lxp1; i++) { /* i = 0 means NA */
                         for (int q = 0; q < Q; q++)
                             linstat[q * (Lxp1 - 1) + (i - 1)] +=
@@ -7732,8 +7733,8 @@ SEXP R_PermutedLinearStatistic_2d
 
     PutRNGstate();
 
-    Free(csum); Free(rsum); Free(sumweights); Free(rtable2);
-    Free(jwork); Free(fact); Free(table);
+    R_Free(csum); R_Free(rsum); R_Free(sumweights); R_Free(rtable2);
+    R_Free(jwork); R_Free(fact); R_Free(table);
     UNPROTECT(2);
     return(ans);
 }
@@ -7741,9 +7742,9 @@ SEXP R_PermutedLinearStatistic_2d
 
 /* Tests */
 
-/* R\_QuadraticTest */
+/* R_QuadraticTest */
 
-/* R\_QuadraticTest Prototype */
+/* R_QuadraticTest Prototype */
 
 SEXP R_QuadraticTest
 (
@@ -7793,7 +7794,7 @@ SEXP R_QuadraticTest
     int PSTAT = INTEGER(PermutedStatistics)[0];
     
 
-    MPinv = Calloc(PP12(PQ), double); /* was: C_get_MPinv(LECV); */
+    MPinv = R_Calloc(PP12(PQ), double); /* was: C_get_MPinv(LECV); */
     C_MPinv_sym(C_get_Covariance(LECV), PQ, C_get_tol(LECV), MPinv, &rank);
 
     REAL(stat)[0] = C_quadform(PQ, C_get_LinearStatistic(LECV),
@@ -7801,7 +7802,7 @@ SEXP R_QuadraticTest
 
     if (!PVALUE) {
         UNPROTECT(2);
-        Free(MPinv);
+        R_Free(MPinv);
         return(ans);
     }
 
@@ -7823,13 +7824,13 @@ SEXP R_QuadraticTest
     }
 
     UNPROTECT(2);
-    Free(MPinv);
+    R_Free(MPinv);
     return(ans);
 }
 
-/* R\_MaximumTest */
+/* R_MaximumTest */
 
-/* R\_MaximumTest Prototype */
+/* R_MaximumTest Prototype */
 
 SEXP R_MaximumTest
 (
@@ -7929,9 +7930,9 @@ SEXP R_MaximumTest
     return(ans);
 }
 
-/* R\_MaximallySelectedTest */
+/* R_MaximallySelectedTest */
 
-/* R\_MaximallySelectedTest Prototype */
+/* R_MaximallySelectedTest Prototype */
 
 SEXP R_MaximallySelectedTest
 (

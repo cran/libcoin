@@ -1,7 +1,7 @@
 
 # R Header
 
-###    Copyright (C) 2017-2021 Torsten Hothorn
+###    Copyright (C) 2017-2023 Torsten Hothorn
 ###
 ###    This file is part of the 'libcoin' R add-on package.
 ###
@@ -36,11 +36,11 @@ function(ix, iy = integer(0), block = integer(0), weights = integer(0),
         if (anyNA(rg))
             stop("no missing values allowed in ix")
         stopifnot(rg[1] >= 0)
-        attr(ix, "levels") <- 1:rg[2]
+        attr(ix, "levels") <- seq_len(rg[2])
     } else {
         ## lev can be data.frame (see inum::inum)
         lev <- attr(ix, "levels")
-        if (!is.vector(lev)) lev <- 1:NROW(lev)
+        if (!is.vector(lev)) lev <- seq_len(NROW(lev))
         attr(ix, "levels") <- lev
         if (checkNAs) stopifnot(!anyNA(ix))
     }
@@ -56,11 +56,11 @@ function(ix, iy = integer(0), block = integer(0), weights = integer(0),
             if (anyNA(rg))
                 stop("no missing values allowed in iy")
             stopifnot(rg[1] >= 0)
-            attr(iy, "levels") <- 1:rg[2]
+            attr(iy, "levels") <- seq_len(rg[2])
         } else {
             ## lev can be data.frame (see inum::inum)
             lev <- attr(iy, "levels")
-            if (!is.vector(lev)) lev <- 1:NROW(lev)
+            if (!is.vector(lev)) lev <- seq_len(NROW(lev))
             attr(iy, "levels") <- lev
             if (checkNAs) stopifnot(!anyNA(iy))
         }
@@ -95,11 +95,13 @@ function(ix, iy = integer(0), block = integer(0), weights = integer(0),
     }
     
 
-    if (length(iy) == 0 && length(block) == 0)
-        return(.Call(R_OneTableSums, ix, weights, subset))
-    if (length(block) == 0)
-        return(.Call(R_TwoTableSums, ix, iy, weights, subset))
     if (length(iy) == 0)
-        return(.Call(R_TwoTableSums, ix, block, weights, subset)[,-1,drop = FALSE])
-    return(.Call(R_ThreeTableSums, ix, iy, block, weights, subset))
+        if (length(block) == 0)
+            .Call(R_OneTableSums, ix, weights, subset)
+        else
+            .Call(R_TwoTableSums, ix, block, weights, subset)[, -1, drop = FALSE]
+    else if (length(block) == 0)
+        .Call(R_TwoTableSums, ix, iy, weights, subset)
+    else
+        .Call(R_ThreeTableSums, ix, iy, block, weights, subset)
 }

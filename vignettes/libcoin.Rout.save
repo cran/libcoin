@@ -150,7 +150,7 @@ $p.value
 > ls1s <- LinStatExpCov(X = as.double(1:5)[x], Y = matrix(y, 
 +     ncol = 1), nresample = 10, standardise = TRUE)
 
-> ls1c <- lmult(c(1:5), ls1d)
+> ls1c <- lmult(1:5, ls1d)
 
 > stopifnot(isequal(ls1c, ls1s))
 
@@ -164,7 +164,7 @@ $p.value
 > ls1s <- LinStatExpCov(X = as.double(1:5)[x], Y = matrix(c(y, 
 +     y), ncol = 2), nresample = 10, standardise = TRUE)
 
-> ls1c <- lmult(c(1:5), ls1d)
+> ls1c <- lmult(1:5, ls1d)
 
 > stopifnot(isequal(ls1c, ls1s))
 
@@ -225,7 +225,7 @@ $p.value
 
 > r2Xfactor <- rep(1:ncol(y), each = ncol(Xfactor))
 
-> LECV <- function(X, Y, weights = integer(0), subset = integer(0), 
+> LSEC <- function(X, Y, weights = integer(0), subset = integer(0), 
 +     block = integer(0)) {
 +     if (length(weights) == 0) 
 +         weights <- .... [TRUNCATED] 
@@ -243,7 +243,7 @@ $p.value
 
 > testit <- function(...) {
 +     a <- LinStatExpCov(x, y, ...)
-+     b <- LECV(x, y, ...)
++     b <- LSEC(x, y, ...)
 +     d <- LinStatExpCov(X = iX2d, ix = ix, Y = iY2d, iy =  .... [TRUNCATED] 
 
 > stopifnot(testit() && testit(weights = weights) && 
@@ -252,7 +252,7 @@ $p.value
 
 > testit <- function(...) {
 +     a <- LinStatExpCov(X = ix, y, ...)
-+     b <- LECV(Xfactor, y, ...)
++     b <- LSEC(Xfactor, y, ...)
 +     d <- LinStatExpCov(X = integer(0), ix = ix .... [TRUNCATED] 
 
 > stopifnot(testit() && testit(weights = weights) && 
@@ -315,7 +315,9 @@ $p.value
 
 > sumweights <- sum(weights[subset])
 
-> expecty <- a0 <- colSums(y[subset, ] * weights[subset])/sumweights
+> expecty <- colSums(y[subset, ] * weights[subset])/sumweights
+
+> a0 <- expecty
 
 > a1 <- .Call(libcoin:::R_ExpectationInfluence, y, weights, 
 +     subset)
@@ -368,6 +370,8 @@ $p.value
 > stopifnot(isequal(a0, a1) && isequal(a0, a2) && isequal(a0, 
 +     a3) && isequal(a0, a4) && isequal(a0, a5))
 
+> a0 <- vary
+
 > a1 <- .Call(libcoin:::R_CovarianceInfluence, y, weights, 
 +     subset, 1)
 
@@ -383,15 +387,10 @@ $p.value
 > a5 <- LinStatExpCov(x, y, weights = weights, subset = subset, 
 +     varonly = TRUE)$VarianceInfluence
 
-> a0 <- vary
-
 > stopifnot(isequal(a0, a1) && isequal(a0, a2) && isequal(a0, 
 +     a3) && isequal(a0, a4) && isequal(a0, a5))
 
 > a0 <- colSums(x[subset, ] * weights[subset])
-
-> a0
-[1] 59.67771 31.68129 47.29375
 
 > a1 <- .Call(libcoin:::R_ExpectationX, x, P, weights, 
 +     subset)
@@ -426,9 +425,6 @@ $p.value
 +     a3) && isequal(a0, a4))
 
 > a0 <- as.vector(colSums(Xfactor[subset, ] * weights[subset]))
-
-> a0
- [1]  0 15  1  4  9  2 20  6  0 15
 
 > a1 <- .Call(libcoin:::R_ExpectationX, ix, Lx, weights, 
 +     subset)
@@ -639,7 +635,7 @@ $p.value
 
 > sb <- sample(block)
 
-> ns1 <- do.call("c", tapply(subset, sb[subset], function(i) i))
+> ns1 <- do.call(c, tapply(subset, sb[subset], function(i) i))
 
 > ns2 <- .Call(libcoin:::R_order_subset_wrt_block, y, 
 +     integer(0), subset, sb)
@@ -696,4 +692,4 @@ $p.value
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   0.81    0.07    0.87 
+   0.90    0.26    1.18 

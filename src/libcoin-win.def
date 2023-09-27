@@ -1,0 +1,4 @@
+
+LIBRARY libcoin.dll
+EXPORTS
+  R_init_libcoin

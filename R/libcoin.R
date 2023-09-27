@@ -1,7 +1,7 @@
 
 # R Header
 
-###    Copyright (C) 2017-2021 Torsten Hothorn
+###    Copyright (C) 2017-2023 Torsten Hothorn
 ###
 ###    This file is part of the 'libcoin' R add-on package.
 ###
@@ -30,7 +30,7 @@ function(X, Y, ix = NULL, iy = NULL, weights = integer(0),
          varonly = FALSE, nresample = 0, standardise = FALSE,
          tol = sqrt(.Machine$double.eps))
 {
-    if (missing(X) & !is.null(ix) & is.null(iy)) {
+    if (missing(X) && !is.null(ix) && is.null(iy)) {
         X <- ix
         ix <- NULL
     }
@@ -40,21 +40,20 @@ function(X, Y, ix = NULL, iy = NULL, weights = integer(0),
     ## <FIXME> for the time being only!!! </FIXME>
 ##    if (length(subset) > 0) subset <- sort(subset)
 
-    if (is.null(ix) & is.null(iy))
-        return(.LinStatExpCov1d(X = X, Y = Y, weights = weights,
-                                subset = subset, block = block,
-                                checkNAs = checkNAs,
-                                varonly = varonly, nresample = nresample,
-                                standardise = standardise, tol = tol))
-
-    if (!is.null(ix) & !is.null(iy))
-        return(.LinStatExpCov2d(X = X, Y = Y, ix = ix, iy = iy,
-                                weights = weights, subset = subset,
-                                block = block, varonly = varonly,
-                                checkNAs = checkNAs, nresample = nresample,
-                                standardise = standardise, tol = tol))
-
-    stop("incorrect call to LinStatExpCov")
+    if (is.null(ix) && is.null(iy))
+        .LinStatExpCov1d(X = X, Y = Y,
+                         weights = weights, subset = subset,
+                         block = block, checkNAs = checkNAs,
+                         varonly = varonly, nresample = nresample,
+                         standardise = standardise, tol = tol)
+    else if (!is.null(ix) && !is.null(iy))
+        .LinStatExpCov2d(X = X, Y = Y, ix = ix, iy = iy,
+                         weights = weights, subset = subset,
+                         block = block, checkNAs = checkNAs,
+                         varonly = varonly, nresample = nresample,
+                         standardise = standardise, tol = tol)
+    else
+        stop("incorrect call to ", sQuote("LinStatExpCov()"))
 }
 
 # LinStatExpCov1d
@@ -75,7 +74,7 @@ function(X, Y, weights = integer(0), subset = integer(0), block = integer(0),
                 stop("no missing values allowed in X")
             stopifnot(rg[1] > 0) # no missing values allowed here!
             if (is.null(attr(X, "levels")))
-                attr(X, "levels") <- 1:rg[2]
+                attr(X, "levels") <- seq_len(rg[2])
         }
     }
 
@@ -122,7 +121,7 @@ function(X, Y, weights = integer(0), subset = integer(0), block = integer(0),
                     stop("all observations are missing")
                 subset <- subset[!(subset %in% which(ms))]
             } else {
-                subset <- (1:N)[-which(ms)]
+                subset <- seq_len(N)[-which(ms)]
             }
         }
         
@@ -164,11 +163,11 @@ function(X = numeric(0), Y, ix, iy, weights = integer(0), subset = integer(0),
         if (anyNA(rg))
             stop("no missing values allowed in ix")
         stopifnot(rg[1] >= 0)
-        attr(ix, "levels") <- 1:rg[2]
+        attr(ix, "levels") <- seq_len(rg[2])
     } else {
         ## lev can be data.frame (see inum::inum)
         lev <- attr(ix, "levels")
-        if (!is.vector(lev)) lev <- 1:NROW(lev)
+        if (!is.vector(lev)) lev <- seq_len(NROW(lev))
         attr(ix, "levels") <- lev
         if (checkNAs) stopifnot(!anyNA(ix))
     }
@@ -181,11 +180,11 @@ function(X = numeric(0), Y, ix, iy, weights = integer(0), subset = integer(0),
         if (anyNA(rg))
             stop("no missing values allowed in iy")
         stopifnot(rg[1] >= 0)
-        attr(iy, "levels") <- 1:rg[2]
+        attr(iy, "levels") <- seq_len(rg[2])
     } else {
         ## lev can be data.frame (see inum::inum)
         lev <- attr(iy, "levels")
-        if (!is.vector(lev)) lev <- 1:NROW(lev)
+        if (!is.vector(lev)) lev <- seq_len(NROW(lev))
         attr(iy, "levels") <- lev
         if (checkNAs) stopifnot(!anyNA(iy))
     }
@@ -287,7 +286,7 @@ function(object, teststat = c("maximum", "quadratic", "scalar"),
     }
     alt <- which(c("two.sided", "less", "greater") == alternative)
 
-    if (!pvalue & (NCOL(object$PermutedLinearStatistic) > 0))
+    if (!pvalue && (NCOL(object$PermutedLinearStatistic) > 0))
         object$PermutedLinearStatistic <- matrix(NA_real_, nrow = 0, ncol = 0)
 
     if (!maxselect) {
@@ -334,7 +333,7 @@ function(x, object)
     } else {
         zmat <- matrix(0, nrow = P * Q, ncol = nrow(x))
         mat <- rbind(t(x), zmat)
-        mat <- mat[rep(1:nrow(mat), Q - 1),,drop = FALSE]
+        mat <- mat[rep.int(seq_len(nrow(mat)), Q - 1),, drop = FALSE]
         mat <- rbind(mat, t(x))
         mat <- matrix(mat, ncol = Q * nrow(x))
         mat <- t(mat)

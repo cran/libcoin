@@ -870,6 +870,12 @@ lmult(x, object)
   \item{object}{an object of class \code{"LinStatExpCov"}.}
 }
 \details{
+
+  This function implements the permutation test framework by
+  \bibcitet{libcoin::strasserweber1999}, see also
+  \bibcitet{libcoin::Hothorn+Hornik+Wiel+Zeileis:2006} and 
+  \bibcitet{libcoin::Hothorn+Hornik+VanDeWiel:2008}.
+
   The function, after minimal preprocessing, calls the underlying C code
   and computes the linear statistic, its expectation and covariance and,
   optionally, \code{nresample} samples from its permutation distribution.
@@ -892,10 +898,7 @@ lmult(x, object)
 \value{
   A list.
 }
-\references{
-  Strasser, H. and Weber, C.  (1999).  On the asymptotic theory of permutation
-  statistics.  \emph{Mathematical Methods of Statistics} \bold{8}(2), 220--250.
-}
+\references{\bibshow{*}}
 \examples{
 wilcox.test(Ozone ~ Month, data = airquality, subset = Month \%in\% c(5, 8),
             exact = FALSE, correct = FALSE)
@@ -7089,16 +7092,19 @@ function(libpath)
 @{
 Package: libcoin
 Title: Linear Test Statistics for Permutation Inference
-Date: 2023-09-26
-Version: 1.0-10
-Authors@@R: person("Torsten", "Hothorn", role = c("aut", "cre"),
-                  email = "Torsten.Hothorn@@R-project.org")
+Date: 2026-03-06
+Version: 1.0-11
+Authors@@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
+                    email = "Torsten.Hothorn@@R-project.org",
+                    comment = c(ORCID = "0000-0001-8301-0471")),
+             person("Henric", "Winell", role = "aut",
+                    comment = c(ORCID = "0000-0001-7995-3047")))
 Description: Basic infrastructure for linear test statistics and permutation
   inference in the framework of Strasser and Weber (1999) <https://epub.wu.ac.at/102/>.
   This package must not be used by end-users. CRAN package 'coin' implements all
   user interfaces and is ready to be used by anyone.
 Depends: R (>= 3.4.0)
-Suggests: coin
+Suggests: coin, bibtex
 Imports: stats, mvtnorm
 LinkingTo: mvtnorm
 NeedsCompilation: yes
@@ -7277,6 +7283,6 @@ void attribute_visible R_init_libcoin
 @u
 
 \bibliographystyle{plainnat}
-\bibliography{libcoin}
+\bibliography{\Sexpr{gsub("\\.bib", "", system.file("REFERENCES.bib", package = "libcoin"))}}
 
 \end{document}

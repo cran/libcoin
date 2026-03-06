@@ -35,6 +35,12 @@ lmult(x, object)
   \item{object}{an object of class \code{"LinStatExpCov"}.}
 }
 \details{
+
+  This function implements the permutation test framework by
+  \bibcitet{libcoin::strasserweber1999}, see also
+  \bibcitet{libcoin::Hothorn+Hornik+Wiel+Zeileis:2006} and 
+  \bibcitet{libcoin::Hothorn+Hornik+VanDeWiel:2008}.
+
   The function, after minimal preprocessing, calls the underlying C code
   and computes the linear statistic, its expectation and covariance and,
   optionally, \code{nresample} samples from its permutation distribution.
@@ -57,10 +63,7 @@ lmult(x, object)
 \value{
   A list.
 }
-\references{
-  Strasser, H. and Weber, C.  (1999).  On the asymptotic theory of permutation
-  statistics.  \emph{Mathematical Methods of Statistics} \bold{8}(2), 220--250.
-}
+\references{\bibshow{*}}
 \examples{
 wilcox.test(Ozone ~ Month, data = airquality, subset = Month \%in\% c(5, 8),
             exact = FALSE, correct = FALSE)

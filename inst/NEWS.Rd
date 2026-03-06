@@ -4,6 +4,12 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-11 (2026-03-06)}{
+  \itemize{
+    \item Use \file{REFERENCES.bib}.
+  }
+}
+
 \section{Changes in Version 1.0-10 (2023-09-26)}{
   \itemize{
     \item Add Henric Winell as author.
@@ -12,6 +18,7 @@
     \item Documentation updates.
   }
 }
+
 
 \section{Changes in Version 1.0-9 (2021-09-27)}{
   \itemize{

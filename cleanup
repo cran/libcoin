@@ -66,6 +66,34 @@ for f in ./inst/doc/*.aux; do
     rm -f $f
 done
 
+for f in ./*.log; do
+    rm -f $f
+done
+
+for f in ./*.out; do
+    rm -f $f
+done
+
+for f in ./*.bbl; do
+    rm -f $f
+done
+
+for f in ./*.blg; do
+    rm -f $f
+done
+
+for f in ./*.brf; do
+    rm -f $f
+done
+
+for f in ./*.aux; do
+    rm -f $f
+done
+
+for f in ./*.toc; do
+    rm -f $f
+done
+
 
 find . -name "DEADJOE" -exec rm -f {} \;
 

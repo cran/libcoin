@@ -4,6 +4,12 @@
 \name{NEWS}
 \title{NEWS file for the \pkg{libcoin} package}
 
+\section{Changes in Version 1.0-12 (2026-03-16)}{
+  \itemize{
+    \item \code{PROTECT} calls to \code{getAttrib} as adviced by \code{rchk}.
+  }
+}
+
 \section{Changes in Version 1.0-11 (2026-03-06)}{
   \itemize{
     \item Use \file{REFERENCES.bib}.

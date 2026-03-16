@@ -6085,16 +6085,26 @@ void C_doPermuteBlock
 
 @d NROW
 @{
-int NROW
+R_xlen_t NROW
 (
     SEXP x
 ) {
     SEXP a;
-    a = getAttrib(x, R_DimSymbol);
-    if (a == R_NilValue) return(XLENGTH(x));
-    if (TYPEOF(a) == REALSXP)
-        return(REAL(a)[0]);
-    return(INTEGER(a)[0]);
+    R_xlen_t ret;
+
+    PROTECT(a = getAttrib(x, R_DimSymbol)); // rchk warning
+    if (a == R_NilValue) {
+        UNPROTECT(1);
+        return(XLENGTH(x));
+    }
+    if (TYPEOF(a) == REALSXP) {
+        ret = (R_xlen_t) REAL(a)[0];
+        UNPROTECT(1);
+        return(ret);
+    }
+    ret = (R_xlen_t) INTEGER(a)[0];
+    UNPROTECT(1);
+    return(ret);
 }
 @|NROW
 @}
@@ -6106,11 +6116,21 @@ int NCOL
     SEXP x
 ) {
     SEXP a;
-    a = getAttrib(x, R_DimSymbol);
-    if (a == R_NilValue) return(1);
-    if (TYPEOF(a) == REALSXP)
-        return(REAL(a)[1]);
-    return(INTEGER(a)[1]);
+    int ret;
+
+    PROTECT(a = getAttrib(x, R_DimSymbol));  // rchk warning
+    if (a == R_NilValue) {
+        UNPROTECT(1);
+        return(1);
+    }
+    if (TYPEOF(a) == REALSXP) {
+        ret = (int) REAL(a)[1];
+        UNPROTECT(1);
+        return(ret);
+    }
+    ret = INTEGER(a)[1];
+    UNPROTECT(1);
+    return(ret);
 }
 @|NCOL
 @}
@@ -6124,7 +6144,7 @@ int NLEVELS
     SEXP a;
     int maxlev = 0;
 
-    a = getAttrib(x, R_LevelsSymbol);
+    PROTECT(a = getAttrib(x, R_LevelsSymbol));
     if (a == R_NilValue) {
         if (TYPEOF(x) != INTSXP)
             error("cannot determine number of levels");
@@ -6132,9 +6152,12 @@ int NLEVELS
             if (INTEGER(x)[i] > maxlev)
                 maxlev = INTEGER(x)[i];
         }
+        UNPROTECT(1);
         return(maxlev);
     }
-    return(NROW(a));
+    maxlev = NROW(a);
+    UNPROTECT(1);
+    return(maxlev);
 }
 @|NLEVELS
 @}
@@ -7092,8 +7115,8 @@ function(libpath)
 @{
 Package: libcoin
 Title: Linear Test Statistics for Permutation Inference
-Date: 2026-03-06
-Version: 1.0-11
+Date: 2026-03-11
+Version: 1.0-12
 Authors@@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@@R-project.org",
                     comment = c(ORCID = "0000-0001-8301-0471")),

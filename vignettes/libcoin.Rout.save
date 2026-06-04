@@ -499,10 +499,6 @@ $p.value
 > stopifnot(isequal(a0, a1) && isequal(a0, a2) && isequal(a0, 
 +     a3) && isequal(a0, a4))
 
-> r1 <- rep(1:ncol(x), ncol(y))
-
-> r2 <- rep(1:ncol(y), each = ncol(x))
-
 > a0 <- colSums(x[subset, r1] * y[subset, r2] * weights[subset])
 
 > a1 <- .Call(libcoin:::R_KronSums, x, P, y, weights, 
@@ -689,7 +685,16 @@ $p.value
 
 > stopifnot(isequal(s, p))
 
+> thisdir <- getwd()
+
+> bibfile <- system.file("REFERENCES.bib", package = "libcoin")
+
+> if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
++     bibfile <- "REFERENCES.bib"
++ } else {
++     bibfile <- file.path("..", "inst", "REF ..." ... [TRUNCATED] 
+
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   0.90    0.26    1.18 
+  0.484   0.024   0.503 

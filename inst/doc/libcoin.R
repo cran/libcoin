@@ -416,9 +416,6 @@ stopifnot(isequal(a0, a1) && isequal(a0, a2) &&
 ###################################################
 ### code chunk number 21: KronSums
 ###################################################
-r1 <- rep(1:ncol(x), ncol(y))
-r2 <- rep(1:ncol(y), each = ncol(x))
-
 a0 <- colSums(x[subset, r1] * y[subset, r2] * weights[subset])
 a1 <- .Call(libcoin:::R_KronSums, x, P, y, weights, subset, 0L)
 a2 <- .Call(libcoin:::R_KronSums, x, P, y, as.double(weights), as.double(subset), 0L)
@@ -583,3 +580,15 @@ p <- .Call(libcoin:::R_pack_sym, m)
 stopifnot(isequal(s, p))
 
 
+###################################################
+### code chunk number 32: bib
+###################################################
+thisdir <- getwd()
+bibfile <- system.file("REFERENCES.bib", package = "libcoin")
+### bibfile may contain spaces LaTeX is unable to deal with on MacOS it seems
+if (file.copy(bibfile, to = thisdir, overwrite = TRUE)) {
+    bibfile <- "REFERENCES.bib"
+} else {
+    ### hope for the best
+    bibfile <- file.path("..", "inst", "REFERENCES.bib")
+}

@@ -2,7 +2,7 @@
 /* C Header */
 
 /*
-    Copyright (C) 2017-2023 Torsten Hothorn
+    Copyright (C) 2016-2026 Torsten Hothorn
 
     This file is part of the 'libcoin' R add-on package.
 
@@ -832,7 +832,7 @@ SEXP RC_init_LECV_1d
 
     /* Initialise Zero */
 
-    /* set inital zeros */
+    /* set initial zeros */
     for (int p = 0; p < PQ; p++) {
         C_get_LinearStatistic(ans)[p] = 0.0;
         C_get_Expectation(ans)[p] = 0.0;
@@ -991,7 +991,7 @@ SEXP RC_init_LECV_2d
 
     /* Initialise Zero */
 
-    /* set inital zeros */
+    /* set initial zeros */
     for (int p = 0; p < PQ; p++) {
         C_get_LinearStatistic(ans)[p] = 0.0;
         C_get_Expectation(ans)[p] = 0.0;
@@ -5328,7 +5328,7 @@ void C_setup_subset_block
     cumtable = R_Calloc(Nlevels, double);
     for (int k = 0; k < Nlevels; k++) cumtable[k] = 0.0;
 
-    /* table[0] are missings, ie block == 0 ! */
+    /* table[0] are missings, i.e. block == 0 ! */
     for (int k = 1; k < Nlevels; k++)
         cumtable[k] = cumtable[k - 1] + REAL(blockTable)[k - 1];
 
